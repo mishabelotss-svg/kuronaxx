@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kurona — каталог видеоигр</title>
+    <style>
+      :root {
+        --bg-page: #0f172a;
+        --bg-page-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        --bg-card: rgba(30, 41, 59, 0.8);
+        --bg-card-hover: rgba(51, 65, 85, 0.9);
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --accent: #38bdf8;
+        --accent-hover: #7dd3fc;
+        --border-color: rgba(148, 163, 184, 0.25);
+        --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
+        --shadow-card-hover: 0 20px 50px rgba(0, 0, 0, 0.5);
+        --radius: 12px;
+        --radius-sm: 8px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg-page-gradient);
+        color: var(--text-primary);
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      header {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .header-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .logo {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.2s ease, transform 0.2s ease;
+      }
+
+      .logo:hover {
+        color: var(--accent);
+        transform: scale(1.02);
+      }
+
+      .search-input {
+        width: 100%;
+        max-width: 320px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--border-color);
+        background: rgba(15, 23, 42, 0.8);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        outline: none;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .search-input::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .search-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+      }
+
+      /* Main catalog */
+      main {
+        padding: 32px 0 24px;
+      }
+
+      .game-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+      }
+
+      .game-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      }
+
+      .game-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-card-hover);
+        background: var(--bg-card-hover);
+      }
+
+      .game-card.hidden {
+        display: none;
+      }
+
+      .game-card .card-cover {
+        display: block;
+        cursor: pointer;
+        position: relative;
+      }
+      .game-card .card-cover img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+      }
+      .game-card .card-cover:hover img {
+        opacity: 0.9;
+      }
+
+      .game-card-body {
+        padding: 16px;
+      }
+
+      .game-card h2 {
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+
+      .game-card .description {
+        margin: 0 0 12px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+      }
+
+      .game-card .rating {
+        margin-bottom: 14px;
+        font-size: 0.85rem;
+        color: var(--accent);
+      }
+
+      .game-card .rating span {
+        color: var(--text-secondary);
+      }
+
+      .card-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 8px 14px;
+        border-radius: var(--radius-sm);
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #0f172a;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-hover);
+        transform: scale(1.03);
+        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+      }
+
+      .btn-secondary {
+        background: rgba(148, 163, 184, 0.2);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(148, 163, 184, 0.35);
+        transform: scale(1.03);
+      }
+
+      /* Guides section */
+      .guides {
+        padding: 32px 0 48px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .guides h2 {
+        margin: 0 0 20px;
+        font-size: 1.5rem;
+      }
+
+      .guides-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .guides-list a {
+        display: block;
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .guides-list a:hover {
+        background: var(--bg-card-hover);
+        transform: translateX(4px);
+        box-shadow: var(--shadow-card);
+      }
+
+      /* Modal */
+      .game-modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .game-modal-overlay.is-open {
+        display: flex;
+      }
+      .game-modal {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-card-hover);
+        max-width: 640px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .game-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .game-modal-header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+      }
+      .game-modal-close {
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: var(--radius-sm);
+        background: rgba(148, 163, 184, 0.2);
+        color: var(--text-primary);
+        font-size: 1.25rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+      }
+      .game-modal-close:hover {
+        background: rgba(148, 163, 184, 0.4);
+      }
+      .game-modal-carousel {
+        position: relative;
+        background: #000;
+      }
+      .game-modal-carousel img {
+        width: 100%;
+        max-height: 360px;
+        object-fit: contain;
+        display: block;
+      }
+      .game-modal-carousel-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+      .game-modal-carousel-arrow:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+      .game-modal-carousel-arrow.prev {
+        left: 12px;
+      }
+      .game-modal-carousel-arrow.next {
+        right: 12px;
+      }
+      .game-modal-carousel-arrow[style*="display: none"] {
+        pointer-events: none;
+      }
+      .game-modal-body {
+        padding: 20px;
+      }
+      .game-modal-body .detail-description {
+        margin: 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .game-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-inner {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .search-input {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container header-inner">
+        <a href="#" class="logo">Kurona</a>
+        <input
+          type="search"
+          class="search-input"
+          id="search"
+          placeholder="Поиск игр…"
+          aria-label="Поиск по названию игры"
+        />
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="game-grid" id="catalog">
+          <article class="game-card" data-title="The Witcher 3: Wild Hunt" data-detail-desc="The Witcher 3: Wild Hunt — масштабная ролевая игра от польской студии CD Projekt RED. Вы играете за ведьмака Геральта, охотника на чудовищ. Сюжет строится вокруг поиска Цири и противостояния Дикой Охоте. Игра предлагает огромный открытый мир (Велиния, Скеллиге, Туссент), десятки квестов с моральным выбором, систему боя с мечами и знаками, крафт и улучшение снаряжения. Решения влияют на концовку и судьбы персонажей." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/292030/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/292030/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" alt="The Witcher 3" />
+            </button>
+            <div class="game-card-body">
+              <h2>The Witcher 3: Wild Hunt</h2>
+              <p class="description">Ролевая игра от CD Projekt RED. Охота на чудовищ, моральный выбор и огромный открытый мир.</p>
+              <p class="rating">Оценка: <span>4.6 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://witcher.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://ru.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Cyberpunk 2077" data-detail-desc="Cyberpunk 2077 — экшен-RPG от CD Projekt RED в сеттинге тёмного будущего. Действие происходит в Найт-Сити: вы играете за наёмника Ви, который получает в голову чип с личностью легендарного рокера Джонни Сильверхенда. Игра сочетает стрельбу, стелс, хакерские способности и диалоги с разными концовками. Открытый мир, киберимпланты, множество квестов и сюжетных линий." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077" />
+            </button>
+            <div class="game-card-body">
+              <h2>Cyberpunk 2077</h2>
+              <p class="description">Научно-фантастический экшен-RPG в мире Найт-Сити. Киборги, хакеры и большие корпорации.</p>
+              <p class="rating">Оценка: <span>4.3 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.cyberpunk.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://www.youtube.com/results?search_query=Cyberpunk+2077+guide" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Minecraft" data-detail-desc="Minecraft — песочница с процедурно генерируемым миром из блоков. Режимы: выживание (здоровье, голод, крафт, ночные монстры), творческий (неограниченные ресурсы и полёт), приключение и хардкор. Игроки добывают ресурсы, строят сооружения, сражаются с мобами и исследуют подземелья, Край и Незер. Поддерживается мультиплеер и огромное количество модов." data-detail-images='["https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/key-art/Minecraft-Java-Bedrock-PC_Featured-Image-0_570x321.jpg","https://picsum.photos/seed/mc1/616/353","https://picsum.photos/seed/mc2/616/353"]'>
+            <button type="button" class="card-cover">
+              <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/key-art/Minecraft-Java-Bedrock-PC_Featured-Image-0_570x321.jpg" alt="Minecraft" />
+            </button>
+            <div class="game-card-body">
+              <h2>Minecraft</h2>
+              <p class="description">Песочница с процедурно генерируемым миром. Стройте, выживайте и исследуйте блоки.</p>
+              <p class="rating">Оценка: <span>4.6 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.minecraft.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://minecraft.fandom.com/ru/wiki" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Elden Ring" data-detail-desc="Elden Ring — экшен-RPG от FromSoftware в сотрудничестве с Джорджем Мартином. Огромный открытый мир Междуземья: замки, подземелья, поля сюрреалистических пейзажей. Сложные боссы, классы персонажей, магия и конные сражения. Сюжет о Восстановлении Кольца Элден и становлении Владыкой." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" alt="Elden Ring" />
+            </button>
+            <div class="game-card-body">
+              <h2>Elden Ring</h2>
+              <p class="description">Открытый мир в духе Souls от FromSoftware и Джорджа Мартина. Сложные боссы и атмосферный лор.</p>
+              <p class="rating">Оценка: <span>4.8 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://en.bandainamcoent.eu/elden-ring/elden-ring" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://eldenring.wiki.fextralife.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Red Dead Redemption 2" data-detail-desc="Red Dead Redemption 2 — приключенческий экшен от Rockstar в сеттинге Дикого Запада. Вы играете за Артура Моргана, члена банды Ван дер Линде. Сюжет разворачивается до событий первой части: охота, ограбления, стычки с законом и внутренние конфликты. Огромный открытый мир с городами, фермами и дикой природой, система чести и детальная симуляция жизни." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg" alt="Red Dead Redemption 2" />
+            </button>
+            <div class="game-card-body">
+              <h2>Red Dead Redemption 2</h2>
+              <p class="description">Вестерн-приключение от Rockstar. Жизнь банды Ван дер Линде и огромный живой мир.</p>
+              <p class="rating">Оценка: <span>4.9 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.rockstargames.com/reddeadredemption2" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://www.ign.com/wikis/red-dead-redemption-2" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="God of War" data-detail-desc="God of War (2018) — экшен-приключение от Santa Monica Studio. Кратос после событий греческой саги оказывается в мире скандинавских мифов вместе с сыном Атреем. Путешествие к самой высокой горе, чтобы развеять прах жены, превращается в противостояние с богами и чудовищами. Ближний бой с топором Левиафан, сюжет об отце и сыне и кинематографичная подача." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg" alt="God of War" />
+            </button>
+            <div class="game-card-body">
+              <h2>God of War</h2>
+              <p class="description">Кратос в скандинавском мире. Экшен с сильным сюжетом и отношениями отца и сына.</p>
+              <p class="rating">Оценка: <span>4.7 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.playstation.com/games/god-of-war" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://godofwar.fandom.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Grand Theft Auto V" data-detail-desc="Grand Theft Auto V — открытый мир от Rockstar. Одиночная кампания с тремя протагонистами (Майкл, Тревор, Франклин) и переключением между ними. Ограбления, гонки, стрельба и свободное исследование Лос-Сантоса и Блэйн-Каунти. GTA Online — многопользовательский режим с собственными миссиями, бизнесами и постоянными обновлениями." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" alt="Grand Theft Auto V" />
+            </button>
+            <div class="game-card-body">
+              <h2>Grand Theft Auto V</h2>
+              <p class="description">Открытый мир от Rockstar. Лос-Сантос, три протагониста и бесконечные приключения в одиночку и онлайн.</p>
+              <p class="rating">Оценка: <span>4.8 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.rockstargames.com/gta-v" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://www.ign.com/wikis/gta-5" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Counter-Strike 2" data-detail-desc="Counter-Strike 2 — бесплатный тактический шутер от Valve, наследник CS:GO на движке Source 2. Две команды (террористы и спецназ) сражаются в раундах: установка/разминирование бомбы или устранение противника. Важны экономика покупки оружия, позиционирование и командная игра. Обновлённая графика, улучшенный матчмейкинг и киберспортивная сцена." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/730/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/730/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2" />
+            </button>
+            <div class="game-card-body">
+              <h2>Counter-Strike 2</h2>
+              <p class="description">Бесплатный тактический шутер от Valve. Командные матчи, экономика раундов и киберспортивная классика.</p>
+              <p class="rating">Оценка: <span>4.5 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.counter-strike.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://liquipedia.net/counterstrike/Counter-Strike_2" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Dota 2" data-detail-desc="Dota 2 — бесплатная MOBA от Valve. Две команды по пять игроков уничтожают вражескую «древнюю» базу, контролируя карту и побеждая крипов и героев. Более 120 героев с уникальными способностями, предметы и роли. Высокий порог входа и глубокая стратегия; The International — один из крупнейших киберспортивных турниров по призовым." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/570/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/570/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2" />
+            </button>
+            <div class="game-card-body">
+              <h2>Dota 2</h2>
+              <p class="description">Бесплатная MOBA от Valve. Две команды по пять игроков, сотни героев и крупнейшие киберспортивные турниры.</p>
+              <p class="rating">Оценка: <span>4.5 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.dota2.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://dota2.fandom.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Hogwarts Legacy" data-detail-desc="Hogwarts Legacy — приключенческая RPG в мире Гарри Поттера. Действие происходит в конце XIX века: вы — студент Хогвартса с доступом к забытой древней магии. Исследование замка и окрестностей, учёба, заклинания, зелья и полёты на метле. Открытый мир с квестами, врагами и тайнами; сюжет не связан напрямую с книгами о Гарри." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/990080/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/990080/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg" alt="Hogwarts Legacy" />
+            </button>
+            <div class="game-card-body">
+              <h2>Hogwarts Legacy</h2>
+              <p class="description">RPG в мире Гарри Поттера. Учёба в Хогвартсе, магия, исследование открытого мира и собственная история.</p>
+              <p class="rating">Оценка: <span>4.2 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.hogwartslegacy.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://www.ign.com/wikis/hogwarts-legacy" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Terraria" data-detail-desc="Terraria — 2D песочница в стиле «Майнкрафт в поперечном разрезе». Копание руды, крафт оружия и брони, постройка домов для NPC, исследование подземелий и биомов. Множество боссов и ивентов, хардмод после победы над Стенами плоти. Кооператив и PvP, постоянные бесплатные обновления с новым контентом." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/105600/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/105600/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg" alt="Terraria" />
+            </button>
+            <div class="game-card-body">
+              <h2>Terraria</h2>
+              <p class="description">2D песочница: копание, крафт, боссы и строительство. Огромный контент и кооператив.</p>
+              <p class="rating">Оценка: <span>4.2 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://terraria.org" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://terraria.wiki.gg" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="game-card" data-title="Resident Evil 4" data-detail-desc="Resident Evil 4 (2023) — ремейк культового хоррора-экшена от Capcom. Агент Леон Кеннеди отправляется в испанскую деревню спасать дочь президента. Обновлённая графика и управление, переработанные локации и враги, при этом сохранён дух оригинала: ограниченные патроны, нож и инвентарь-чемодан. Over-the-shoulder вид и напряжённые перестрелки с ганадо." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/capsule_616x353.jpg"]'>
+            <button type="button" class="card-cover">
+              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg" alt="Resident Evil 4" />
+            </button>
+            <div class="game-card-body">
+              <h2>Resident Evil 4</h2>
+              <p class="description">Ремейк классики от Capcom. Леон спасает дочь президента в испанской деревне и замке.</p>
+              <p class="rating">Оценка: <span>4.7 из 5</span></p>
+              <div class="card-actions">
+                <a href="https://www.residentevil.com/4" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
+                <a href="https://residentevil.fandom.com/wiki/Resident_Evil_4_Remake" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </main>
+
+    <section class="guides">
+      <div class="container">
+        <h2>Гайды и обзоры</h2>
+        <ul class="guides-list">
+          <li><a href="https://www.youtube.com/results?search_query=The+Witcher+3+guide" target="_blank" rel="noopener">The Witcher 3 — гайды и прохождения на YouTube</a></li>
+          <li><a href="https://www.ign.com/wikis/elden-ring" target="_blank" rel="noopener">Elden Ring — вики и гайды на IGN</a></li>
+          <li><a href="https://www.polygon.com/cyberpunk-2077-guide-walkthrough" target="_blank" rel="noopener">Cyberpunk 2077 — руководство Polygon</a></li>
+          <li><a href="https://www.rockpapershotgun.com/red-dead-redemption-2-walkthrough" target="_blank" rel="noopener">Red Dead Redemption 2 — прохождение RPS</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="game-modal-overlay" id="game-modal" aria-hidden="true">
+      <div class="game-modal">
+        <div class="game-modal-header">
+          <h3 id="game-modal-title"></h3>
+          <button type="button" class="game-modal-close" id="game-modal-close" aria-label="Закрыть">&times;</button>
+        </div>
+        <div class="game-modal-carousel">
+          <button type="button" class="game-modal-carousel-arrow prev" id="carousel-prev" aria-label="Назад">&larr;</button>
+          <img id="carousel-img" src="" alt="" />
+          <button type="button" class="game-modal-carousel-arrow next" id="carousel-next" aria-label="Вперёд">&rarr;</button>
+        </div>
+        <div class="game-modal-body">
+          <p class="detail-description" id="game-modal-desc"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var searchEl = document.getElementById("search");
+        var catalogEl = document.getElementById("catalog");
+        if (!searchEl || !catalogEl) return;
+
+        var cards = catalogEl.querySelectorAll(".game-card");
+
+        function filterCards() {
+          var query = (searchEl.value || "").trim().toLowerCase();
+          cards.forEach(function (card) {
+            var title = (card.getAttribute("data-title") || "").toLowerCase();
+            if (!query || title.indexOf(query) !== -1) {
+              card.classList.remove("hidden");
+            } else {
+              card.classList.add("hidden");
+            }
+          });
+        }
+
+        searchEl.addEventListener("input", filterCards);
+        searchEl.addEventListener("search", filterCards);
+
+        var modal = document.getElementById("game-modal");
+        var modalTitle = document.getElementById("game-modal-title");
+        var modalDesc = document.getElementById("game-modal-desc");
+        var carouselImg = document.getElementById("carousel-img");
+        var carouselPrev = document.getElementById("carousel-prev");
+        var carouselNext = document.getElementById("carousel-next");
+        var modalClose = document.getElementById("game-modal-close");
+
+        var detailImages = [];
+        var detailIndex = 0;
+
+        function openModal(card) {
+          var title = card.getAttribute("data-title") || "";
+          var desc = card.getAttribute("data-detail-desc") || "";
+          var imagesJson = card.getAttribute("data-detail-images");
+          try {
+            detailImages = imagesJson ? JSON.parse(imagesJson) : [];
+          } catch (e) {
+            detailImages = [];
+          }
+          if (detailImages.length === 0 && card.querySelector(".card-cover img")) {
+            detailImages = [card.querySelector(".card-cover img").src];
+          }
+          detailIndex = 0;
+          modalTitle.textContent = title;
+          modalDesc.textContent = desc;
+          if (detailImages.length) {
+            carouselImg.src = detailImages[0];
+            carouselImg.alt = title;
+            carouselImg.style.display = "";
+            carouselPrev.style.display = detailImages.length > 1 ? "" : "none";
+            carouselNext.style.display = detailImages.length > 1 ? "" : "none";
+          } else {
+            carouselImg.style.display = "none";
+            carouselPrev.style.display = "none";
+            carouselNext.style.display = "none";
+          }
+          modal.classList.add("is-open");
+          modal.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+          modal.classList.remove("is-open");
+          modal.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+
+        function showCarouselImage() {
+          if (detailImages.length) {
+            detailIndex = (detailIndex + detailImages.length) % detailImages.length;
+            carouselImg.src = detailImages[detailIndex];
+          }
+        }
+
+        function carouselPrevClick() {
+          if (detailImages.length <= 1) return;
+          detailIndex--;
+          showCarouselImage();
+        }
+
+        function carouselNextClick() {
+          if (detailImages.length <= 1) return;
+          detailIndex++;
+          showCarouselImage();
+        }
+
+        cards.forEach(function (card) {
+          var cover = card.querySelector(".card-cover");
+          if (cover) {
+            cover.addEventListener("click", function () {
+              openModal(card);
+            });
+          }
+        });
+
+        if (carouselPrev) carouselPrev.addEventListener("click", carouselPrevClick);
+        if (carouselNext) carouselNext.addEventListener("click", carouselNextClick);
+        if (modalClose) modalClose.addEventListener("click", closeModal);
+
+        if (modal) {
+          modal.addEventListener("click", function (e) {
+            if (e.target === modal) closeModal();
+          });
+        }
+
+        document.addEventListener("keydown", function (e) {
+          if (!modal || !modal.classList.contains("is-open")) return;
+          if (e.key === "Escape") closeModal();
+          if (e.key === "ArrowLeft") carouselPrevClick();
+          if (e.key === "ArrowRight") carouselNextClick();
+        });
+      })();
+    </script>
+  </body>
+</html>
