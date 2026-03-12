@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О проекте - Kuronaxx</title>
+    <style>
+        :root {
+            --primary: #66c0f4;
+            --secondary: #4b7bac;
+            --dark: #1b2838;
+            --light: #c7d5e0;
+            --accent: #2a475e;
+            --rating: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(102, 192, 244, 0.3);
+        }
+
+        .category-bar {
+            background: #171a21;
+            border-bottom: 1px solid #2d2f33;
+            padding: 10px 0;
+            width: 100%;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-item {
+            color: #b8b6b4;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-item:hover {
+            color: white;
+            border-bottom-color: var(--primary);
+        }
+
+        .category-item.active {
+            color: white;
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2d33;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 1500;
+            border-radius: 4px;
+            margin-top: 8px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .submenu-content {
+            padding: 10px 15px;
+            color: white;
+        }
+
+        .submenu-content a[href] {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .submenu-content a[href]:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            padding: 30px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .info-block {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 60px;
+            align-items: stretch;
+        }
+
+        .info-text {
+            flex: 1;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .info-text p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--light);
+        }
+
+        .info-video {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+            background: var(--accent);
+        }
+
+        .info-video:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .info-video video {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            display: block;
+            object-fit: cover;
+        }
+
+        .hero-section {
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 700px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--light);
+        }
+
+        .floating-game {
+            position: absolute;
+            width: 180px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, filter 0.3s;
+            z-index: 1;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        .floating-game:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            filter: brightness(1.2);
+            z-index: 5;
+            opacity: 1;
+        }
+
+        .back-to-catalog {
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+
+        .back-to-catalog a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            transition: all 0.3s;
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .back-to-catalog a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 192, 244, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            color: var(--text-muted, rgba(199, 213, 224, 0.6));
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .authors-footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .authors-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+
+        .author-name {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .info-block {
+                flex-direction: column;
+            }
+
+            .hero-section {
+                min-height: 500px;
+            }
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .hero-text p {
+                font-size: 1rem;
+            }
+            .floating-game {
+                width: 100px;
+            }
+            .category-container {
+                justify-content: center;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+            .dropdown:hover .dropdown-menu {
+                display: none;
+            }
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Kuronaxx</div>
+        <div style="flex: 1; max-width: 500px;"></div>
+    </header>
+
+    <div class="category-bar">
+        <div class="category-container">
+            <div class="dropdown">
+                <a href="index.html" class="category-item">Главная</a>
+                <div class="dropdown-menu">
+                    <div class="submenu-content">
+                        <a href="new.html">Новинки →</a>
+                    </div>
+                    <div class="submenu-content">
+                        <a href="wishlist.html">Список желаемого →</a>
+                    </div>
+                </div>
+            </div>
+            <a href="info.html" class="category-item active">Информация</a>
+            <a href="support.html" class="category-item">Поддержка</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="info-block">
+            <div class="info-text">
+                <h2>О проекте Kuronaxx</h2>
+                <p>Kuronaxx — это удобный каталог видеоигр с подробными описаниями, рейтингами и отзывами, созданный для настоящих геймеров.</p>
+            </div>
+            <div class="info-video">
+                <video autoplay loop muted playsinline>
+                    <source src="videos/about-project.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает встроенные видео. Вы можете <a href="videos/about-project.mp4">скачать файл</a>.
+                </video>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="hero-text">
+                <h1>Мгновенный доступ к играм</h1>
+                <p>Kurona предлагает игры на любой вкус, а также эксклюзивные предложения, автоматическое обновление игр и другие замечательные возможности.</p>
+            </div>
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 5%; left: 2%; width: 200px; transform: rotate(-8deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 15%; left: 10%; width: 160px; transform: rotate(5deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 40%; left: 5%; width: 180px; transform: rotate(-12deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 60%; left: 15%; width: 150px; transform: rotate(10deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" class="floating-game" style="top: 75%; left: 3%; width: 190px; transform: rotate(-5deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" class="floating-game" style="top: 8%; right: 2%; width: 170px; transform: rotate(7deg);">
+            <img src="https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85" class="floating-game" style="top: 20%; right: 12%; width: 210px; transform: rotate(-6deg);">
+            <img src="https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork" class="floating-game" style="top: 45%; right: 5%; width: 180px; transform: rotate(15deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 65%; right: 18%; width: 160px; transform: rotate(-9deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 80%; right: 8%; width: 200px; transform: rotate(3deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 30%; left: 20%; width: 140px; transform: rotate(-15deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 50%; right: 25%; width: 150px; transform: rotate(8deg);">
+        </div>
+
+        <div class="back-to-catalog">
+            <a href="index.html">Вернуться в каталог</a>
+        </div>
+    </div>
+
+    <footer class="authors-footer">
+        Сделано: <span class="author-name">Белоцерковец Михаилом Дмитриевичем</span> и <span class="author-name">Салим Абду Рафаэлем</span>
+    </footer>
+</body>
+</html>
