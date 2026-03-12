@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поддержка - Kuronaxx</title>
+    <style>
+        :root {
+            --primary: #66c0f4;
+            --secondary: #4b7bac;
+            --dark: #1b2838;
+            --light: #c7d5e0;
+            --accent: #2a475e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(90deg, #000000 0%, var(--dark) 15%, var(--dark) 85%, #000000 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .category-bar {
+            background: #171a21;
+            border-bottom: 1px solid #2d2f33;
+            padding: 10px 0;
+            width: 100%;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-item {
+            color: #b8b6b4;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-item:hover {
+            color: white;
+            border-bottom-color: var(--primary);
+        }
+
+        .category-item.active {
+            color: white;
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2d33;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 1500;
+            border-radius: 4px;
+            margin-top: 8px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .submenu-content {
+            padding: 10px 15px;
+            color: white;
+        }
+
+        .submenu-content a[href] {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .submenu-content a[href]:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .support-block {
+            padding: 0;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .support-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: left;
+        }
+
+        .support-header h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--light);
+            text-align: left;
+        }
+
+        .support-header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            text-align: left;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+
+        .support-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .support-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .support-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 192, 244, 0.4);
+            border-color: var(--primary);
+        }
+
+        .support-btn.secondary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .support-btn.secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .popular-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .popular-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--light);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .help-wizard-button {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            color: white;
+            transition: background 0.2s, border-color 0.2s;
+            position: relative;
+        }
+
+        .help-wizard-button:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--primary);
+        }
+
+        .help-wizard-button img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
+
+        .help-wizard-button span {
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .help-wizard-button::after {
+            content: "→";
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: transform 0.2s;
+        }
+
+        .help-wizard-button:hover::after {
+            transform: translateX(5px);
+        }
+
+        .help-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+
+        .help-wizard-button.more-link-button {
+            background: transparent;
+            border: 1px solid var(--primary);
+            justify-content: space-between;
+        }
+
+        .help-wizard-button.more-link-button span {
+            font-size: 1.1rem;
+        }
+
+        .help-wizard-button.more-link-button::after {
+            content: "→";
+            font-size: 1.3rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .category-container {
+                justify-content: center;
+            }
+            .support-header h1 {
+                font-size: 2.5rem;
+            }
+            .support-header h2 {
+                font-size: 1.5rem;
+            }
+            .support-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .support-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .help-wizard-button {
+                flex-wrap: wrap;
+                padding: 15px;
+            }
+            .help-wizard-button img {
+                width: 50px;
+                height: 50px;
+                margin-right: 15px;
+            }
+            .help-wizard-button span {
+                font-size: 1rem;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+            .dropdown:hover .dropdown-menu {
+                display: none;
+            }
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Kuronaxx</div>
+    </header>
+
+    <div class="category-bar">
+        <div class="category-container">
+            <div class="dropdown">
+                <a href="index.html" class="category-item">Главная</a>
+                <div class="dropdown-menu">
+                    <div class="submenu-content">
+                        <a href="new.html">Новинки →</a>
+                    </div>
+                    <div class="submenu-content">
+                        <a href="wishlist.html">Список желаемого →</a>
+                    </div>
+                </div>
+            </div>
+            <a href="info.html" class="category-item">Информация</a>
+            <a href="support.html" class="category-item active">Поддержка</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="support-block">
+            <div class="support-header">
+                <h1>Поддержка Kurona</h1>
+                <h2>С чем вам нужна помощь?</h2>
+                <p>Войдите в свой аккаунт Kuronaxx, чтобы просмотреть покупки и статус аккаунта, а также получить персональную помощь.</p>
+            </div>
+
+            <div class="support-actions">
+                <a href="#" class="support-btn">Войти в Kuronaxx</a>
+                <a href="#" class="support-btn secondary">Помогите, я не могу войти в аккаунт</a>
+            </div>
+
+            <div class="popular-section">
+                <h3>ПОПУЛЯРНЫЕ ТОВАРЫ</h3>
+
+                <a href="game.html?id=witcher3" class="help-wizard-button">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" alt="The Witcher 3">
+                    <span>The Witcher 3: Wild Hunt</span>
+                </a>
+                <a href="game.html?id=cyberpunk2077" class="help-wizard-button">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077">
+                    <span>Cyberpunk 2077</span>
+                </a>
+                <a href="game.html?id=csgo" class="help-wizard-button">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2">
+                    <span>Counter-Strike 2</span>
+                </a>
+                <a href="game.html?id=dota2" class="help-wizard-button">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2">
+                    <span>Dota 2</span>
+                </a>
+
+                <div class="help-divider"></div>
+
+                <a href="index.html" class="help-wizard-button more-link-button">
+                    <span>Игры, программы и т. д.</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Сделано: Белоцерковец Михаилом Дмитриевичем и Салим Абду Рафаэлем</p>
+    </footer>
+</body>
+</html>
