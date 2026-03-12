@@ -1,705 +1,575 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kurona — каталог видеоигр</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuronaxx - Каталог видеоигр</title>
     <style>
-      :root {
-        --bg-page: #0f172a;
-        --bg-page-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-        --bg-card: rgba(30, 41, 59, 0.8);
-        --bg-card-hover: rgba(51, 65, 85, 0.9);
-        --text-primary: #f1f5f9;
-        --text-secondary: #94a3b8;
-        --accent: #38bdf8;
-        --accent-hover: #7dd3fc;
-        --border-color: rgba(148, 163, 184, 0.25);
-        --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.4);
-        --shadow-card-hover: 0 20px 50px rgba(0, 0, 0, 0.5);
-        --radius: 12px;
-        --radius-sm: 8px;
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: var(--bg-page-gradient);
-        color: var(--text-primary);
-        line-height: 1.5;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
-      /* Header */
-      header {
-        padding: 20px 0;
-        border-bottom: 1px solid var(--border-color);
-      }
-
-      .header-inner {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-
-      .logo {
-        font-size: 1.75rem;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        color: var(--text-primary);
-        text-decoration: none;
-        transition: color 0.2s ease, transform 0.2s ease;
-      }
-
-      .logo:hover {
-        color: var(--accent);
-        transform: scale(1.02);
-      }
-
-      .search-input {
-        width: 100%;
-        max-width: 320px;
-        padding: 10px 16px;
-        border-radius: 999px;
-        border: 1px solid var(--border-color);
-        background: rgba(15, 23, 42, 0.8);
-        color: var(--text-primary);
-        font-size: 0.95rem;
-        outline: none;
-        transition: box-shadow 0.2s ease, border-color 0.2s ease;
-      }
-
-      .search-input::placeholder {
-        color: var(--text-secondary);
-      }
-
-      .search-input:focus {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
-      }
-
-      /* Main catalog */
-      main {
-        padding: 32px 0 24px;
-      }
-
-      .game-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 24px;
-      }
-
-      .game-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow-card);
-        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      }
-
-      .game-card:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-card-hover);
-        background: var(--bg-card-hover);
-      }
-
-      .game-card.hidden {
-        display: none;
-      }
-
-      .game-card .card-cover {
-        display: block;
-        cursor: pointer;
-        position: relative;
-      }
-      .game-card .card-cover img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        display: block;
-      }
-      .game-card .card-cover:hover img {
-        opacity: 0.9;
-      }
-
-      .game-card-body {
-        padding: 16px;
-      }
-
-      .game-card h2 {
-        margin: 0 0 8px;
-        font-size: 1.2rem;
-        font-weight: 600;
-      }
-
-      .game-card .description {
-        margin: 0 0 12px;
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-      }
-
-      .game-card .rating {
-        margin-bottom: 14px;
-        font-size: 0.85rem;
-        color: var(--accent);
-      }
-
-      .game-card .rating span {
-        color: var(--text-secondary);
-      }
-
-      .card-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .btn {
-        display: inline-block;
-        padding: 8px 14px;
-        border-radius: var(--radius-sm);
-        font-size: 0.85rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .btn-primary {
-        background: var(--accent);
-        color: #0f172a;
-      }
-
-      .btn-primary:hover {
-        background: var(--accent-hover);
-        transform: scale(1.03);
-        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
-      }
-
-      .btn-secondary {
-        background: rgba(148, 163, 184, 0.2);
-        color: var(--text-primary);
-        border: 1px solid var(--border-color);
-      }
-
-      .btn-secondary:hover {
-        background: rgba(148, 163, 184, 0.35);
-        transform: scale(1.03);
-      }
-
-      /* Guides section */
-      .guides {
-        padding: 32px 0 48px;
-        border-top: 1px solid var(--border-color);
-      }
-
-      .guides h2 {
-        margin: 0 0 20px;
-        font-size: 1.5rem;
-      }
-
-      .guides-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .guides-list a {
-        display: block;
-        padding: 12px 16px;
-        border-radius: var(--radius-sm);
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-        text-decoration: none;
-        transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .guides-list a:hover {
-        background: var(--bg-card-hover);
-        transform: translateX(4px);
-        box-shadow: var(--shadow-card);
-      }
-
-      /* Modal */
-      .game-modal-overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.75);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        overflow-y: auto;
-      }
-      .game-modal-overlay.is-open {
-        display: flex;
-      }
-      .game-modal {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow-card-hover);
-        max-width: 640px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-      }
-      .game-modal-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 20px;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .game-modal-header h3 {
-        margin: 0;
-        font-size: 1.25rem;
-      }
-      .game-modal-close {
-        width: 36px;
-        height: 36px;
-        border: none;
-        border-radius: var(--radius-sm);
-        background: rgba(148, 163, 184, 0.2);
-        color: var(--text-primary);
-        font-size: 1.25rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s ease;
-      }
-      .game-modal-close:hover {
-        background: rgba(148, 163, 184, 0.4);
-      }
-      .game-modal-carousel {
-        position: relative;
-        background: #000;
-      }
-      .game-modal-carousel img {
-        width: 100%;
-        max-height: 360px;
-        object-fit: contain;
-        display: block;
-      }
-      .game-modal-carousel-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 44px;
-        height: 44px;
-        border: none;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        color: #fff;
-        font-size: 1.25rem;
-        cursor: pointer;
-        transition: background 0.2s ease;
-      }
-      .game-modal-carousel-arrow:hover {
-        background: rgba(255, 255, 255, 0.4);
-      }
-      .game-modal-carousel-arrow.prev {
-        left: 12px;
-      }
-      .game-modal-carousel-arrow.next {
-        right: 12px;
-      }
-      .game-modal-carousel-arrow[style*="display: none"] {
-        pointer-events: none;
-      }
-      .game-modal-body {
-        padding: 20px;
-      }
-      .game-modal-body .detail-description {
-        margin: 0;
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-        line-height: 1.6;
-      }
-
-      @media (max-width: 768px) {
-        .game-grid {
-          grid-template-columns: 1fr;
+        :root {
+            --primary: #66c0f4;
+            --secondary: #4b7bac;
+            --dark: #1b2838;
+            --light: #c7d5e0;
+            --accent: #2a475e;
+            --rating: #ffc107;
         }
 
-        .header-inner {
-          flex-direction: column;
-          align-items: stretch;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .search-input {
-          max-width: none;
+        body {
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            padding-bottom: 50px;
         }
-      }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(102, 192, 244, 0.3);
+        }
+
+        .search {
+            flex: 1;
+            min-width: 250px;
+            max-width: 500px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search input:focus {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(102, 192, 244, 0.3);
+        }
+
+        .category-bar {
+            background: #171a21;
+            border-bottom: 1px solid #2d2f33;
+            padding: 10px 0;
+            width: 100%;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-item {
+            color: #b8b6b4;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .category-item:hover {
+            color: white;
+            border-bottom-color: var(--primary);
+        }
+
+        .category-item.active {
+            color: white;
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2d33;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 1500;
+            border-radius: 4px;
+            margin-top: 8px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .submenu-content {
+            padding: 10px 15px;
+            color: white;
+        }
+
+        .submenu-content a[href] {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .submenu-content a[href]:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            padding: 30px 5%;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .game-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .game-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+
+        .game-content {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .game-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .game-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--rating);
+            margin-right: 10px;
+        }
+
+        .rating-value {
+            font-weight: bold;
+        }
+
+        .wishlist-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 8px 0;
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 0.2s;
+        }
+
+        .wishlist-btn:hover {
+            opacity: 0.8;
+        }
+
+        .wishlist-btn span:first-child {
+            font-size: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .wishlist-btn span:last-child {
+            color: var(--light);
+            font-size: 0.95rem;
+        }
+
+        .guides-section {
+            margin-top: 50px;
+        }
+
+        .guides-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .guide-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .guide-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .guide-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .guide-item p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            color: var(--text-muted, rgba(199, 213, 224, 0.6));
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .authors-footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .authors-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+
+        .author-name {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search {
+                width: 100%;
+            }
+
+            .category-container {
+                justify-content: center;
+            }
+
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+
+            .dropdown:hover .dropdown-menu {
+                display: none;
+            }
+
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <div class="container header-inner">
-        <a href="#" class="logo">Kurona</a>
-        <input
-          type="search"
-          class="search-input"
-          id="search"
-          placeholder="Поиск игр…"
-          aria-label="Поиск по названию игры"
-        />
-      </div>
+        <div class="logo">Kuronaxx</div>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Поиск игр...">
+        </div>
     </header>
 
-    <main>
-      <div class="container">
-        <div class="game-grid" id="catalog">
-          <article class="game-card" data-title="The Witcher 3: Wild Hunt" data-detail-desc="The Witcher 3: Wild Hunt — масштабная ролевая игра от польской студии CD Projekt RED. Вы играете за ведьмака Геральта, охотника на чудовищ. Сюжет строится вокруг поиска Цири и противостояния Дикой Охоте. Игра предлагает огромный открытый мир (Велиния, Скеллиге, Туссент), десятки квестов с моральным выбором, систему боя с мечами и знаками, крафт и улучшение снаряжения. Решения влияют на концовку и судьбы персонажей." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/292030/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/292030/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" alt="The Witcher 3" />
-            </button>
-            <div class="game-card-body">
-              <h2>The Witcher 3: Wild Hunt</h2>
-              <p class="description">Ролевая игра от CD Projekt RED. Охота на чудовищ, моральный выбор и огромный открытый мир.</p>
-              <p class="rating">Оценка: <span>4.6 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://witcher.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://ru.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
+    <div class="category-bar">
+        <div class="category-container">
+            <div class="dropdown">
+                <a href="index.html" class="category-item active">Главная</a>
+                <div class="dropdown-menu">
+                    <div class="submenu-content">
+                        <a href="new.html">Новинки →</a>
+                    </div>
+                    <div class="submenu-content">
+                        <a href="wishlist.html">Список желаемого →</a>
+                    </div>
+                </div>
             </div>
-          </article>
-
-          <article class="game-card" data-title="Cyberpunk 2077" data-detail-desc="Cyberpunk 2077 — экшен-RPG от CD Projekt RED в сеттинге тёмного будущего. Действие происходит в Найт-Сити: вы играете за наёмника Ви, который получает в голову чип с личностью легендарного рокера Джонни Сильверхенда. Игра сочетает стрельбу, стелс, хакерские способности и диалоги с разными концовками. Открытый мир, киберимпланты, множество квестов и сюжетных линий." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077" />
-            </button>
-            <div class="game-card-body">
-              <h2>Cyberpunk 2077</h2>
-              <p class="description">Научно-фантастический экшен-RPG в мире Найт-Сити. Киборги, хакеры и большие корпорации.</p>
-              <p class="rating">Оценка: <span>4.3 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.cyberpunk.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://www.youtube.com/results?search_query=Cyberpunk+2077+guide" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Minecraft" data-detail-desc="Minecraft — песочница с процедурно генерируемым миром из блоков. Режимы: выживание (здоровье, голод, крафт, ночные монстры), творческий (неограниченные ресурсы и полёт), приключение и хардкор. Игроки добывают ресурсы, строят сооружения, сражаются с мобами и исследуют подземелья, Край и Незер. Поддерживается мультиплеер и огромное количество модов." data-detail-images='["https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/key-art/Minecraft-Java-Bedrock-PC_Featured-Image-0_570x321.jpg","https://picsum.photos/seed/mc1/616/353","https://picsum.photos/seed/mc2/616/353"]'>
-            <button type="button" class="card-cover">
-              <img src="https://www.minecraft.net/content/dam/minecraftnet/games/minecraft/key-art/Minecraft-Java-Bedrock-PC_Featured-Image-0_570x321.jpg" alt="Minecraft" />
-            </button>
-            <div class="game-card-body">
-              <h2>Minecraft</h2>
-              <p class="description">Песочница с процедурно генерируемым миром. Стройте, выживайте и исследуйте блоки.</p>
-              <p class="rating">Оценка: <span>4.6 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.minecraft.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://minecraft.fandom.com/ru/wiki" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Elden Ring" data-detail-desc="Elden Ring — экшен-RPG от FromSoftware в сотрудничестве с Джорджем Мартином. Огромный открытый мир Междуземья: замки, подземелья, поля сюрреалистических пейзажей. Сложные боссы, классы персонажей, магия и конные сражения. Сюжет о Восстановлении Кольца Элден и становлении Владыкой." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" alt="Elden Ring" />
-            </button>
-            <div class="game-card-body">
-              <h2>Elden Ring</h2>
-              <p class="description">Открытый мир в духе Souls от FromSoftware и Джорджа Мартина. Сложные боссы и атмосферный лор.</p>
-              <p class="rating">Оценка: <span>4.8 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://en.bandainamcoent.eu/elden-ring/elden-ring" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://eldenring.wiki.fextralife.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Red Dead Redemption 2" data-detail-desc="Red Dead Redemption 2 — приключенческий экшен от Rockstar в сеттинге Дикого Запада. Вы играете за Артура Моргана, члена банды Ван дер Линде. Сюжет разворачивается до событий первой части: охота, ограбления, стычки с законом и внутренние конфликты. Огромный открытый мир с городами, фермами и дикой природой, система чести и детальная симуляция жизни." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg" alt="Red Dead Redemption 2" />
-            </button>
-            <div class="game-card-body">
-              <h2>Red Dead Redemption 2</h2>
-              <p class="description">Вестерн-приключение от Rockstar. Жизнь банды Ван дер Линде и огромный живой мир.</p>
-              <p class="rating">Оценка: <span>4.9 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.rockstargames.com/reddeadredemption2" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://www.ign.com/wikis/red-dead-redemption-2" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="God of War" data-detail-desc="God of War (2018) — экшен-приключение от Santa Monica Studio. Кратос после событий греческой саги оказывается в мире скандинавских мифов вместе с сыном Атреем. Путешествие к самой высокой горе, чтобы развеять прах жены, превращается в противостояние с богами и чудовищами. Ближний бой с топором Левиафан, сюжет об отце и сыне и кинематографичная подача." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg" alt="God of War" />
-            </button>
-            <div class="game-card-body">
-              <h2>God of War</h2>
-              <p class="description">Кратос в скандинавском мире. Экшен с сильным сюжетом и отношениями отца и сына.</p>
-              <p class="rating">Оценка: <span>4.7 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.playstation.com/games/god-of-war" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://godofwar.fandom.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Grand Theft Auto V" data-detail-desc="Grand Theft Auto V — открытый мир от Rockstar. Одиночная кампания с тремя протагонистами (Майкл, Тревор, Франклин) и переключением между ними. Ограбления, гонки, стрельба и свободное исследование Лос-Сантоса и Блэйн-Каунти. GTA Online — многопользовательский режим с собственными миссиями, бизнесами и постоянными обновлениями." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" alt="Grand Theft Auto V" />
-            </button>
-            <div class="game-card-body">
-              <h2>Grand Theft Auto V</h2>
-              <p class="description">Открытый мир от Rockstar. Лос-Сантос, три протагониста и бесконечные приключения в одиночку и онлайн.</p>
-              <p class="rating">Оценка: <span>4.8 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.rockstargames.com/gta-v" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://www.ign.com/wikis/gta-5" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Counter-Strike 2" data-detail-desc="Counter-Strike 2 — бесплатный тактический шутер от Valve, наследник CS:GO на движке Source 2. Две команды (террористы и спецназ) сражаются в раундах: установка/разминирование бомбы или устранение противника. Важны экономика покупки оружия, позиционирование и командная игра. Обновлённая графика, улучшенный матчмейкинг и киберспортивная сцена." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/730/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/730/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2" />
-            </button>
-            <div class="game-card-body">
-              <h2>Counter-Strike 2</h2>
-              <p class="description">Бесплатный тактический шутер от Valve. Командные матчи, экономика раундов и киберспортивная классика.</p>
-              <p class="rating">Оценка: <span>4.5 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.counter-strike.net" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://liquipedia.net/counterstrike/Counter-Strike_2" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Dota 2" data-detail-desc="Dota 2 — бесплатная MOBA от Valve. Две команды по пять игроков уничтожают вражескую «древнюю» базу, контролируя карту и побеждая крипов и героев. Более 120 героев с уникальными способностями, предметы и роли. Высокий порог входа и глубокая стратегия; The International — один из крупнейших киберспортивных турниров по призовым." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/570/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/570/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2" />
-            </button>
-            <div class="game-card-body">
-              <h2>Dota 2</h2>
-              <p class="description">Бесплатная MOBA от Valve. Две команды по пять игроков, сотни героев и крупнейшие киберспортивные турниры.</p>
-              <p class="rating">Оценка: <span>4.5 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.dota2.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://dota2.fandom.com" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Hogwarts Legacy" data-detail-desc="Hogwarts Legacy — приключенческая RPG в мире Гарри Поттера. Действие происходит в конце XIX века: вы — студент Хогвартса с доступом к забытой древней магии. Исследование замка и окрестностей, учёба, заклинания, зелья и полёты на метле. Открытый мир с квестами, врагами и тайнами; сюжет не связан напрямую с книгами о Гарри." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/990080/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/990080/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg" alt="Hogwarts Legacy" />
-            </button>
-            <div class="game-card-body">
-              <h2>Hogwarts Legacy</h2>
-              <p class="description">RPG в мире Гарри Поттера. Учёба в Хогвартсе, магия, исследование открытого мира и собственная история.</p>
-              <p class="rating">Оценка: <span>4.2 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.hogwartslegacy.com" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://www.ign.com/wikis/hogwarts-legacy" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Terraria" data-detail-desc="Terraria — 2D песочница в стиле «Майнкрафт в поперечном разрезе». Копание руды, крафт оружия и брони, постройка домов для NPC, исследование подземелий и биомов. Множество боссов и ивентов, хардмод после победы над Стенами плоти. Кооператив и PvP, постоянные бесплатные обновления с новым контентом." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/105600/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/105600/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg" alt="Terraria" />
-            </button>
-            <div class="game-card-body">
-              <h2>Terraria</h2>
-              <p class="description">2D песочница: копание, крафт, боссы и строительство. Огромный контент и кооператив.</p>
-              <p class="rating">Оценка: <span>4.2 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://terraria.org" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://terraria.wiki.gg" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="game-card" data-title="Resident Evil 4" data-detail-desc="Resident Evil 4 (2023) — ремейк культового хоррора-экшена от Capcom. Агент Леон Кеннеди отправляется в испанскую деревню спасать дочь президента. Обновлённая графика и управление, переработанные локации и враги, при этом сохранён дух оригинала: ограниченные патроны, нож и инвентарь-чемодан. Over-the-shoulder вид и напряжённые перестрелки с ганадо." data-detail-images='["https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/library_600x900_2x.jpg","https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/capsule_616x353.jpg"]'>
-            <button type="button" class="card-cover">
-              <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg" alt="Resident Evil 4" />
-            </button>
-            <div class="game-card-body">
-              <h2>Resident Evil 4</h2>
-              <p class="description">Ремейк классики от Capcom. Леон спасает дочь президента в испанской деревне и замке.</p>
-              <p class="rating">Оценка: <span>4.7 из 5</span></p>
-              <div class="card-actions">
-                <a href="https://www.residentevil.com/4" class="btn btn-primary" target="_blank" rel="noopener">Официальный сайт</a>
-                <a href="https://residentevil.fandom.com/wiki/Resident_Evil_4_Remake" class="btn btn-secondary" target="_blank" rel="noopener">Гайды и обзоры</a>
-              </div>
-            </div>
-          </article>
-
+            <a href="info.html" class="category-item">Информация</a>
+            <a href="support.html" class="category-item">Поддержка</a>
         </div>
-      </div>
-    </main>
+    </div>
 
-    <section class="guides">
-      <div class="container">
-        <h2>Гайды и обзоры</h2>
-        <ul class="guides-list">
-          <li><a href="https://www.youtube.com/results?search_query=The+Witcher+3+guide" target="_blank" rel="noopener">The Witcher 3 — гайды и прохождения на YouTube</a></li>
-          <li><a href="https://www.ign.com/wikis/elden-ring" target="_blank" rel="noopener">Elden Ring — вики и гайды на IGN</a></li>
-          <li><a href="https://www.polygon.com/cyberpunk-2077-guide-walkthrough" target="_blank" rel="noopener">Cyberpunk 2077 — руководство Polygon</a></li>
-          <li><a href="https://www.rockpapershotgun.com/red-dead-redemption-2-walkthrough" target="_blank" rel="noopener">Red Dead Redemption 2 — прохождение RPS</a></li>
-        </ul>
-      </div>
-    </section>
+    <div class="container">
+        <h1>Каталог видеоигр</h1>
+        
+        <div class="games-grid" id="gamesContainer"></div>
 
-    <div class="game-modal-overlay" id="game-modal" aria-hidden="true">
-      <div class="game-modal">
-        <div class="game-modal-header">
-          <h3 id="game-modal-title"></h3>
-          <button type="button" class="game-modal-close" id="game-modal-close" aria-label="Закрыть">&times;</button>
+        <div class="guides-section">
+            <h2>Гайды и обзоры</h2>
+            <div class="guides-list">
+                <div class="guide-item">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Полное прохождение Cyberpunk 2077</a>
+                    <p>Все концовки и секреты игры</p>
+                </div>
+                <div class="guide-item">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Гайд по персонажам Dota 2</a>
+                    <p>Лучшие сборки для каждого героя</p>
+                </div>
+                <div class="guide-item">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Советы по CS:GO для новичков</a>
+                    <p>Как улучшить свой скилл</p>
+                </div>
+                <div class="guide-item">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Все секреты GTA V</a>
+                    <p>Скрытые места и пасхалки</p>
+                </div>
+            </div>
         </div>
-        <div class="game-modal-carousel">
-          <button type="button" class="game-modal-carousel-arrow prev" id="carousel-prev" aria-label="Назад">&larr;</button>
-          <img id="carousel-img" src="" alt="" />
-          <button type="button" class="game-modal-carousel-arrow next" id="carousel-next" aria-label="Вперёд">&rarr;</button>
-        </div>
-        <div class="game-modal-body">
-          <p class="detail-description" id="game-modal-desc"></p>
-        </div>
-      </div>
     </div>
 
     <script>
-      (function () {
-        var searchEl = document.getElementById("search");
-        var catalogEl = document.getElementById("catalog");
-        if (!searchEl || !catalogEl) return;
+const games = [
+    {
+        id: "witcher3",
+        title: "The Witcher 3: Wild Hunt",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+        description: "Эпическая RPG с открытым миром от CD Projekt Red",
+        rating: 4.9
+    },
+    {
+        id: "cyberpunk2077",
+        title: "Cyberpunk 2077",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+        description: "Футуристический экшен-RPG в мире Найт-Сити",
+        rating: 4.2
+    },
+    {
+        id: "csgo",
+        title: "Counter-Strike 2",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+        description: "Культовый тактический шутер от Valve",
+        rating: 4.8
+    },
+    {
+        id: "dota2",
+        title: "Dota 2",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg",
+        description: "Популярная MOBA-игра с миллионами игроков",
+        rating: 4.7
+    },
+    {
+        id: "gta5",
+        title: "Grand Theft Auto V",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+        description: "Легендарная игра в жанре action-adventure",
+        rating: 4.9
+    },
+    {
+        id: "eldenring",
+        title: "Elden Ring",
+        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+        description: "Фэнтезийная action-RPG от создателей Dark Souls",
+        rating: 4.8
+    },
+    {
+        id: "fifa26",
+        title: "EA SPORTS FC 26",
+        image: "https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85",
+        description: "Официальный футбольный симулятор с тысячами лицензированных игроков, команд и стадионов. Новая физика мяча и улучшенный ИИ делают каждый матч непредсказуемым.",
+        rating: 4.5
+    },
+    {
+        id: "forzah6",
+        title: "Forza Horizon 6",
+        image: "https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork",
+        description: "Новая часть популярной гоночной аркады с открытым миром. Исследуйте огромный мир, участвуйте в захватывающих гонках и настраивайте свои автомобили.",
+        rating: 4.8
+    }
+];
 
-        var cards = catalogEl.querySelectorAll(".game-card");
+function displayGames(gamesToShow) {
+    const container = document.getElementById('gamesContainer');
+    container.innerHTML = '';
 
-        function filterCards() {
-          var query = (searchEl.value || "").trim().toLowerCase();
-          cards.forEach(function (card) {
-            var title = (card.getAttribute("data-title") || "").toLowerCase();
-            if (!query || title.indexOf(query) !== -1) {
-              card.classList.remove("hidden");
-            } else {
-              card.classList.add("hidden");
-            }
-          });
-        }
+    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
 
-        searchEl.addEventListener("input", filterCards);
-        searchEl.addEventListener("search", filterCards);
+    gamesToShow.forEach(game => {
+        const isInWishlist = wishlist.some(item => item.id === game.id);
+        const heartColor = isInWishlist ? 'red' : '#b8b6b4';
 
-        var modal = document.getElementById("game-modal");
-        var modalTitle = document.getElementById("game-modal-title");
-        var modalDesc = document.getElementById("game-modal-desc");
-        var carouselImg = document.getElementById("carousel-img");
-        var carouselPrev = document.getElementById("carousel-prev");
-        var carouselNext = document.getElementById("carousel-next");
-        var modalClose = document.getElementById("game-modal-close");
+        const card = document.createElement('a');
+        card.className = 'game-card';
+        card.href = `game.html?id=${game.id}`;
+        
+        card.innerHTML = `
+            <div class="game-image" style="background-image: url('${game.image}')"></div>
+            <div class="game-content">
+                <h3 class="game-title">${game.title}</h3>
+                <p class="game-description">${game.description}</p>
+                <div class="game-rating">
+                    <div class="stars">${'★'.repeat(Math.floor(game.rating))}${'☆'.repeat(5-Math.floor(game.rating))}</div>
+                    <div class="rating-value">${game.rating}/5</div>
+                </div>
+                <div class="wishlist-btn" data-id="${game.id}" data-title="${game.title}" data-image="${game.image}" data-description="${game.description}" data-rating="${game.rating}">
+                    <span style="color: ${heartColor};">❤</span>
+                    <span>В желаемое</span>
+                </div>
+            </div>
+        `;
+        
+        container.appendChild(card);
+    });
+}
 
-        var detailImages = [];
-        var detailIndex = 0;
+function filterGames() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const filteredGames = games.filter(game => 
+        game.title.toLowerCase().includes(searchTerm)
+    );
+    displayGames(filteredGames);
+}
 
-        function openModal(card) {
-          var title = card.getAttribute("data-title") || "";
-          var desc = card.getAttribute("data-detail-desc") || "";
-          var imagesJson = card.getAttribute("data-detail-images");
-          try {
-            detailImages = imagesJson ? JSON.parse(imagesJson) : [];
-          } catch (e) {
-            detailImages = [];
-          }
-          if (detailImages.length === 0 && card.querySelector(".card-cover img")) {
-            detailImages = [card.querySelector(".card-cover img").src];
-          }
-          detailIndex = 0;
-          modalTitle.textContent = title;
-          modalDesc.textContent = desc;
-          if (detailImages.length) {
-            carouselImg.src = detailImages[0];
-            carouselImg.alt = title;
-            carouselImg.style.display = "";
-            carouselPrev.style.display = detailImages.length > 1 ? "" : "none";
-            carouselNext.style.display = detailImages.length > 1 ? "" : "none";
-          } else {
-            carouselImg.style.display = "none";
-            carouselPrev.style.display = "none";
-            carouselNext.style.display = "none";
-          }
-          modal.classList.add("is-open");
-          modal.setAttribute("aria-hidden", "false");
-          document.body.style.overflow = "hidden";
-        }
+// Обработчик для сердечек (добавление/удаление из списка желаемого)
+document.addEventListener('click', function(e) {
+    const wishlistBtn = e.target.closest('.wishlist-btn');
+    if (!wishlistBtn) return;
+    
+    e.preventDefault(); // чтобы ссылка не сработала
+    e.stopPropagation(); // предотвращаем всплытие
 
-        function closeModal() {
-          modal.classList.remove("is-open");
-          modal.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
-        }
+    const id = wishlistBtn.dataset.id;
+    const title = wishlistBtn.dataset.title;
+    const image = wishlistBtn.dataset.image;
+    const description = wishlistBtn.dataset.description;
+    const rating = parseFloat(wishlistBtn.dataset.rating);
 
-        function showCarouselImage() {
-          if (detailImages.length) {
-            detailIndex = (detailIndex + detailImages.length) % detailImages.length;
-            carouselImg.src = detailImages[detailIndex];
-          }
-        }
+    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    const index = wishlist.findIndex(item => item.id === id);
 
-        function carouselPrevClick() {
-          if (detailImages.length <= 1) return;
-          detailIndex--;
-          showCarouselImage();
-        }
+    const heartSpan = wishlistBtn.querySelector('span:first-child');
 
-        function carouselNextClick() {
-          if (detailImages.length <= 1) return;
-          detailIndex++;
-          showCarouselImage();
-        }
+    if (index === -1) {
+        // Добавляем в список желаемого
+        wishlist.push({ id, title, image, description, rating });
+        heartSpan.style.color = 'red';
+    } else {
+        // Удаляем из списка желаемого
+        wishlist.splice(index, 1);
+        heartSpan.style.color = '#b8b6b4';
+    }
 
-        cards.forEach(function (card) {
-          var cover = card.querySelector(".card-cover");
-          if (cover) {
-            cover.addEventListener("click", function () {
-              openModal(card);
-            });
-          }
-        });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+});
 
-        if (carouselPrev) carouselPrev.addEventListener("click", carouselPrevClick);
-        if (carouselNext) carouselNext.addEventListener("click", carouselNextClick);
-        if (modalClose) modalClose.addEventListener("click", closeModal);
+document.addEventListener('DOMContentLoaded', () => {
+    displayGames(games);
+    document.getElementById('searchInput').addEventListener('input', filterGames);
+});
+</script>
 
-        if (modal) {
-          modal.addEventListener("click", function (e) {
-            if (e.target === modal) closeModal();
-          });
-        }
-
-        document.addEventListener("keydown", function (e) {
-          if (!modal || !modal.classList.contains("is-open")) return;
-          if (e.key === "Escape") closeModal();
-          if (e.key === "ArrowLeft") carouselPrevClick();
-          if (e.key === "ArrowRight") carouselNextClick();
-        });
-      })();
-    </script>
-  </body>
+    <footer class="authors-footer">
+        Сделано: <span class="author-name">Белоцерковец Михаилом Дмитриевичем</span> и <span class="author-name">Салим Абду Рафаэлем</span>
+    </footer>
+</body>
 </html>
-
