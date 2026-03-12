@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список желаемого - Kuronaxx</title>
+    <style>
+        :root {
+            --primary: #66c0f4;
+            --secondary: #4b7bac;
+            --dark: #1b2838;
+            --light: #c7d5e0;
+            --accent: #2a475e;
+            --rating: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(90deg, #000000 0%, var(--dark) 15%, var(--dark) 85%, #000000 100%);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .category-bar {
+            background: #171a21;
+            border-bottom: 1px solid #2d2f33;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .category-item {
+            color: #b8b6b4;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .category-item:hover {
+            color: white;
+            border-bottom-color: var(--primary);
+        }
+
+        .category-item.active {
+            color: white;
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2a2d33;
+            min-width: 250px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            z-index: 1500;
+            border-radius: 4px;
+            margin-top: 8px;
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .submenu-content {
+            padding: 10px 15px;
+            color: white;
+        }
+
+        .submenu-content a[href] {
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .submenu-content a[href]:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .wishlist-header {
+            margin-bottom: 30px;
+        }
+
+        .wishlist-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .empty-message {
+            font-size: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+            margin: 100px 0 20px;
+        }
+
+        .empty-submessage {
+            font-size: 1.2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .game-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .game-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+
+        .game-content {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .game-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .game-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--rating);
+            margin-right: 10px;
+        }
+
+        .rating-value {
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .remove-btn:hover {
+            background: #ff4444;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.5);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .category-container {
+                justify-content: center;
+            }
+            .wishlist-header h1 {
+                font-size: 2.5rem;
+            }
+            .empty-message {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Kuronaxx</div>
+    </header>
+
+    <div class="category-bar">
+        <div class="category-container">
+            <div class="dropdown">
+                <a href="index.html" class="category-item">Главная</a>
+                <div class="dropdown-menu">
+                    <div class="submenu-content">
+                        <a href="new.html">Новинки →</a>
+                    </div>
+                    <div class="submenu-content">
+                        <a href="wishlist.html">Список желаемого →</a>
+                    </div>
+                </div>
+            </div>
+            <a href="info.html" class="category-item">Информация</a>
+            <a href="support.html" class="category-item">Поддержка</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="wishlist-header">
+            <h1>Список желаемого</h1>
+        </div>
+
+        <div id="wishlistContainer">
+            <!-- Сюда будут загружаться карточки игр из localStorage -->
+        </div>
+    </div>
+
+    <footer>
+        <p>Сделано: Белоцерковец Михаилом Дмитриевичем и Салим Абду Рафаэлем</p>
+    </footer>
+
+    <script>
+        function displayWishlist() {
+            const container = document.getElementById('wishlistContainer');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+            if (wishlist.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-message">❤️ Ваш список желаемого пуст.</div>
+                    <div class="empty-submessage">
+                        Составляйте свой список желаемого: просматривайте игры в магазине 
+                        и добавляйте их с помощью кнопки «В желаемое»
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="games-grid">';
+            wishlist.forEach(game => {
+                const stars = '★'.repeat(Math.floor(game.rating)) + '☆'.repeat(5 - Math.floor(game.rating));
+                html += `
+                    <div class="game-card">
+                        <a href="game.html?id=${game.id}" style="text-decoration: none; color: inherit;">
+                            <div class="game-image" style="background-image: url('${game.image}')"></div>
+                            <div class="game-content">
+                                <h3 class="game-title">${game.title}</h3>
+                                <p class="game-description">${game.description}</p>
+                                <div class="game-rating">
+                                    <div class="stars">${stars}</div>
+                                    <div class="rating-value">${game.rating}/5</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div style="padding: 0 20px 20px;">
+                            <span class="remove-btn" onclick="removeFromWishlist('${game.id}')">Удалить из желаемого</span>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function removeFromWishlist(id) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            wishlist = wishlist.filter(item => item.id !== id);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            displayWishlist(); // обновляем отображение
+
+            // Также обновляем цвет сердечка на главной, если она открыта
+            // Для этого можно отправить событие, но проще при следующем визите на главную всё само обновится
+        }
+
+        document.addEventListener('DOMContentLoaded', displayWishlist);
+    </script>
+</body>
+</html>
