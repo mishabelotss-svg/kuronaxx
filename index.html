@@ -135,8 +135,25 @@
             padding: 10px 0;
         }
 
-        .dropdown:hover .dropdown-menu {
-            display: block;
+        /* Для ПК: hover */
+        @media (min-width: 769px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* Для мобильных: управление через класс .show */
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+            .dropdown-menu.show {
+                display: block;
+            }
         }
 
         .submenu-content {
@@ -356,21 +373,6 @@
             .category-container {
                 justify-content: center;
             }
-
-            .dropdown-menu {
-                position: static;
-                box-shadow: none;
-                background: transparent;
-                padding-left: 20px;
-            }
-
-            .dropdown:hover .dropdown-menu {
-                display: none;
-            }
-
-            .dropdown.active .dropdown-menu {
-                display: block;
-            }
         }
     </style>
 </head>
@@ -385,8 +387,8 @@
     <div class="category-bar">
         <div class="category-container">
             <div class="dropdown">
-                <a href="index.html" class="category-item active">Главная</a>
-                <div class="dropdown-menu">
+                <a href="index.html" class="category-item active" id="mainDropdownToggle">Главная</a>
+                <div class="dropdown-menu" id="mainDropdownMenu">
                     <div class="submenu-content">
                         <a href="new.html">Новинки →</a>
                     </div>
@@ -530,13 +532,13 @@ function filterGames() {
     displayGames(filteredGames);
 }
 
-// Обработчик для сердечек (добавление/удаление из списка желаемого)
+// Обработчик для сердечек
 document.addEventListener('click', function(e) {
     const wishlistBtn = e.target.closest('.wishlist-btn');
     if (!wishlistBtn) return;
     
-    e.preventDefault(); // чтобы ссылка не сработала
-    e.stopPropagation(); // предотвращаем всплытие
+    e.preventDefault();
+    e.stopPropagation();
 
     const id = wishlistBtn.dataset.id;
     const title = wishlistBtn.dataset.title;
@@ -550,16 +552,49 @@ document.addEventListener('click', function(e) {
     const heartSpan = wishlistBtn.querySelector('span:first-child');
 
     if (index === -1) {
-        // Добавляем в список желаемого
         wishlist.push({ id, title, image, description, rating });
         heartSpan.style.color = 'red';
     } else {
-        // Удаляем из списка желаемого
         wishlist.splice(index, 1);
         heartSpan.style.color = '#b8b6b4';
     }
 
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
+});
+
+// Управление мобильным меню
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownToggle = document.getElementById('mainDropdownToggle');
+    const dropdownMenu = document.getElementById('mainDropdownMenu');
+    
+    if (!dropdownToggle || !dropdownMenu) return;
+
+    function closeDropdown() {
+        dropdownMenu.classList.remove('show');
+    }
+
+    // Открытие/закрытие по клику только на мобильных
+    dropdownToggle.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        }
+    });
+
+    // Закрытие при клике вне меню
+    document.addEventListener('click', function(e) {
+        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            closeDropdown();
+        }
+    });
+
+    // Закрытие при изменении размера окна
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeDropdown();
+        }
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {
