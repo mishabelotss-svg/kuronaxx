@@ -44,13 +44,19 @@
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(102, 192, 244, 0.3);
+            display: inline-block;
+            line-height: 0; /* убирает лишний отступ под картинкой */
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            vertical-align: middle;
+            transition: opacity 0.2s;
+        }
+
+        .logo-img:hover {
+            opacity: 0.8;
         }
 
         .search {
@@ -378,7 +384,10 @@
 </head>
 <body>
     <header>
-        <div class="logo">Kuronaxx</div>
+        <!-- Логотип-картинка -->
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
+        </a>
         <div class="search">
             <input type="text" id="searchInput" placeholder="Поиск игр...">
         </div>
