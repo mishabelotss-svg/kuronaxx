@@ -44,19 +44,15 @@
         }
 
         .logo {
+            text-decoration: none;
             display: inline-block;
-            line-height: 0; /* убирает лишний отступ под картинкой */
         }
 
         .logo-img {
             height: 45px;
             width: auto;
             vertical-align: middle;
-            transition: opacity 0.2s;
-        }
-
-        .logo-img:hover {
-            opacity: 0.8;
+            mix-blend-mode: multiply; /* убирает белый фон */
         }
 
         .search {
@@ -384,7 +380,6 @@
 </head>
 <body>
     <header>
-        <!-- Логотип-картинка -->
         <a href="index.html" class="logo">
             <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
         </a>
