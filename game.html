@@ -38,13 +38,26 @@
             backdrop-filter: blur(5px);
         }
 
-        .logo {
-            font-size: 1.5rem;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            vertical-align: middle;
+            display: block;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
             font-weight: 700;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         .back-btn {
@@ -119,8 +132,23 @@
             padding: 10px 0;
         }
 
-        .dropdown:hover .dropdown-menu {
-            display: block;
+        @media (min-width: 769px) {
+            .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                display: none;
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+            .dropdown-menu.show {
+                display: block;
+            }
         }
 
         .submenu-content {
@@ -392,15 +420,18 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">Kuronaxx</a>
+        <a href="index.html" class="logo-container">
+            <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
+            <span class="logo-text">Kurona</span>
+        </a>
         <a href="index.html" class="back-btn">← Назад к каталогу</a>
     </header>
 
     <div class="category-bar">
         <div class="category-container">
             <div class="dropdown">
-                <a href="index.html" class="category-item">Главная</a>
-                <div class="dropdown-menu">
+                <a href="index.html" class="category-item" id="mainDropdownToggle">Главная</a>
+                <div class="dropdown-menu" id="mainDropdownMenu">
                     <div class="submenu-content">
                         <a href="new.html">Новинки →</a>
                     </div>
@@ -457,7 +488,6 @@
     </footer>
 
     <script>
-        // Полный массив games (скопируйте из index.html или предыдущей версии game.html)
         const games = [
             {
                 id: "witcher3",
