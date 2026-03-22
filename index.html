@@ -43,11 +43,26 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
         .logo-img {
             height: 45px;
             width: auto;
             vertical-align: middle;
             display: block;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 1px;
         }
 
         .search {
@@ -373,8 +388,9 @@
 </head>
 <body>
     <header>
-        <a href="index.html" class="logo">
+        <a href="index.html" class="logo-container">
             <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
+            <span class="logo-text">Kurona</span>
         </a>
         <div class="search">
             <input type="text" id="searchInput" placeholder="Поиск игр...">
