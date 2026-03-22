@@ -311,4 +311,165 @@
             text-align: center;
             padding: 25px;
             margin-top: 50px;
-            background: rgba(0, 0, 0,
+            background: rgba(0, 0, 0, 0.3);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .authors-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
+
+        .author-name {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .info-block {
+                flex-direction: column;
+            }
+
+            .hero-section {
+                min-height: 500px;
+            }
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            .hero-text p {
+                font-size: 1rem;
+            }
+            .floating-game {
+                width: 100px;
+            }
+            .category-container {
+                justify-content: center;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background: transparent;
+                padding-left: 20px;
+            }
+            .dropdown:hover .dropdown-menu {
+                display: none;
+            }
+            .dropdown.active .dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo-container">
+            <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
+            <span class="logo-text">Kurona</span>
+        </a>
+    </header>
+
+    <div class="category-bar">
+        <div class="category-container">
+            <div class="dropdown">
+                <a href="index.html" class="category-item" id="mainDropdownToggle">Главная</a>
+                <div class="dropdown-menu" id="mainDropdownMenu">
+                    <div class="submenu-content">
+                        <a href="new.html">Новинки →</a>
+                    </div>
+                    <div class="submenu-content">
+                        <a href="wishlist.html">Список желаемого →</a>
+                    </div>
+                </div>
+            </div>
+            <a href="info.html" class="category-item active">Информация</a>
+            <a href="support.html" class="category-item">Поддержка</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="info-block">
+            <div class="info-text">
+                <h2>О проекте Kuronaxx</h2>
+                <p>Kuronaxx — это удобный каталог видеоигр с подробными описаниями, рейтингами и отзывами, созданный для настоящих геймеров.</p>
+            </div>
+            <div class="info-video">
+                <video autoplay loop muted playsinline>
+                    <source src="videos/about-project.mp4" type="video/mp4">
+                    Ваш браузер не поддерживает встроенные видео. Вы можете <a href="videos/about-project.mp4">скачать файл</a>.
+                </video>
+            </div>
+        </div>
+
+        <div class="hero-section">
+            <div class="hero-text">
+                <h1>Мгновенный доступ к играм</h1>
+                <p>Kurona предлагает игры на любой вкус, а также эксклюзивные предложения, автоматическое обновление игр и другие замечательные возможности.</p>
+            </div>
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 5%; left: 2%; width: 200px; transform: rotate(-8deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 15%; left: 10%; width: 160px; transform: rotate(5deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 40%; left: 5%; width: 180px; transform: rotate(-12deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 60%; left: 15%; width: 150px; transform: rotate(10deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" class="floating-game" style="top: 75%; left: 3%; width: 190px; transform: rotate(-5deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" class="floating-game" style="top: 8%; right: 2%; width: 170px; transform: rotate(7deg);">
+            <img src="https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85" class="floating-game" style="top: 20%; right: 12%; width: 210px; transform: rotate(-6deg);">
+            <img src="https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork" class="floating-game" style="top: 45%; right: 5%; width: 180px; transform: rotate(15deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 65%; right: 18%; width: 160px; transform: rotate(-9deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 80%; right: 8%; width: 200px; transform: rotate(3deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 30%; left: 20%; width: 140px; transform: rotate(-15deg);">
+            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 50%; right: 25%; width: 150px; transform: rotate(8deg);">
+        </div>
+
+        <div class="back-to-catalog">
+            <a href="index.html">Вернуться в каталог</a>
+        </div>
+    </div>
+
+    <footer class="authors-footer">
+        Сделано: <span class="author-name">Белоцерковец Михаилом Дмитриевичем</span> и <span class="author-name">Салим Абду Рафаэлем</span>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggle = document.getElementById('mainDropdownToggle');
+            const dropdownMenu = document.getElementById('mainDropdownMenu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                function closeDropdown() {
+                    dropdownMenu.classList.remove('show');
+                }
+
+                dropdownToggle.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropdownMenu.classList.toggle('show');
+                    }
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        closeDropdown();
+                    }
+                });
+
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        closeDropdown();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
