@@ -43,16 +43,11 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
-        .logo {
-            text-decoration: none;
-            display: inline-block;
-        }
-
         .logo-img {
             height: 45px;
             width: auto;
             vertical-align: middle;
-            mix-blend-mode: multiply; /* убирает белый фон */
+            background-color: transparent;
         }
 
         .search {
@@ -137,14 +132,12 @@
             padding: 10px 0;
         }
 
-        /* Для ПК: hover */
         @media (min-width: 769px) {
             .dropdown:hover .dropdown-menu {
                 display: block;
             }
         }
 
-        /* Для мобильных: управление через класс .show */
         @media (max-width: 768px) {
             .dropdown-menu {
                 display: none;
@@ -536,7 +529,6 @@ function filterGames() {
     displayGames(filteredGames);
 }
 
-// Обработчик для сердечек
 document.addEventListener('click', function(e) {
     const wishlistBtn = e.target.closest('.wishlist-btn');
     if (!wishlistBtn) return;
@@ -566,42 +558,36 @@ document.addEventListener('click', function(e) {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
 });
 
-// Управление мобильным меню
 document.addEventListener('DOMContentLoaded', function() {
     const dropdownToggle = document.getElementById('mainDropdownToggle');
     const dropdownMenu = document.getElementById('mainDropdownMenu');
     
-    if (!dropdownToggle || !dropdownMenu) return;
+    if (dropdownToggle && dropdownMenu) {
+        function closeDropdown() {
+            dropdownMenu.classList.remove('show');
+        }
 
-    function closeDropdown() {
-        dropdownMenu.classList.remove('show');
+        dropdownToggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeDropdown();
+            }
+        });
     }
 
-    // Открытие/закрытие по клику только на мобильных
-    dropdownToggle.addEventListener('click', function(e) {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('show');
-        }
-    });
-
-    // Закрытие при клике вне меню
-    document.addEventListener('click', function(e) {
-        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            closeDropdown();
-        }
-    });
-
-    // Закрытие при изменении размера окна
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            closeDropdown();
-        }
-    });
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     displayGames(games);
     document.getElementById('searchInput').addEventListener('input', filterGames);
 });
