@@ -338,34 +338,58 @@
         }
 
         .authors-footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 50px;
-            background: rgba(0, 0, 0, 0.3);
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
-            position: relative;
-        }
+    text-align: center;
+    padding: 25px;
+    margin-top: 50px;
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
 
-        .authors-footer::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--primary), transparent);
-        }
+.authors-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--primary), transparent);
+}
 
-        .author-name {
-            background: linear-gradient(to right, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 600;
-        }
+.footer-label {
+    color: rgba(255, 255, 255, 0.8);
+}
 
+.author-name {
+    background: linear-gradient(to right, var(--accent), var(--primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
+.telegram-link {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s;
+}
+
+.telegram-link:hover {
+    transform: translateY(-2px);
+}
+
+.telegram-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
         @media (max-width: 768px) {
             .games-grid {
                 grid-template-columns: 1fr;
