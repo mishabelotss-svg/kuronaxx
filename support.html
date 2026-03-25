@@ -35,6 +35,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .logo-container {
@@ -47,7 +49,6 @@
         .logo-img {
             height: 45px;
             width: auto;
-            vertical-align: middle;
             display: block;
         }
 
@@ -57,6 +58,46 @@
             color: white;
             text-decoration: none;
             letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-link {
+            background: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-link:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .user-name {
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .category-bar {
@@ -312,67 +353,60 @@
             font-size: 1.3rem;
         }
 
-        footer {
+        .authors-footer {
             text-align: center;
-            padding: 30px;
-            color: rgba(255,255,255,0.5);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .authors-footer {
-    text-align: center;
-    padding: 25px;
-    margin-top: 50px;
-    background: rgba(0, 0, 0, 0.3);
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+        .authors-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
 
-.authors-footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--primary), transparent);
-}
+        .footer-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-.footer-label {
-    color: rgba(255, 255, 255, 0.8);
-}
+        .author-name {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
 
-.author-name {
-    background: linear-gradient(to right, var(--accent), var(--primary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 600;
-}
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.2s;
+            text-decoration: none;
+        }
 
-.social-link {
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.2s;
-    text-decoration: none;
-}
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
 
-.social-link:hover {
-    transform: translateY(-2px);
-}
-
-.social-icon {
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-}
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
 
         @media (max-width: 768px) {
             .category-container {
@@ -425,6 +459,13 @@
             <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
             <span class="logo-text">Kurona</span>
         </a>
+        <div class="header-right">
+            <div id="userInfo" style="display: none;">
+                <span id="userName" class="user-name"></span>
+                <button id="logoutBtn" class="logout-btn">Выйти</button>
+            </div>
+            <a href="login.html" id="loginLink" class="login-link">Войти</a>
+        </div>
     </header>
 
     <div class="category-bar">
@@ -450,85 +491,4 @@
             <div class="support-header">
                 <h1>Поддержка Kurona</h1>
                 <h2>С чем вам нужна помощь?</h2>
-                <p>Войдите в свой аккаунт Kuronaxx, чтобы просмотреть покупки и статус аккаунта, а также получить персональную помощь.</p>
-            </div>
-
-            <div class="support-actions">
-                <a href="#" class="support-btn">Войти в Kuronaxx</a>
-                <a href="#" class="support-btn secondary">Помогите, я не могу войти в аккаунт</a>
-            </div>
-
-            <div class="popular-section">
-                <h3>ПОПУЛЯРНЫЕ ТОВАРЫ</h3>
-
-                <a href="game.html?id=witcher3" class="help-wizard-button">
-                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" alt="The Witcher 3">
-                    <span>The Witcher 3: Wild Hunt</span>
-                </a>
-                <a href="game.html?id=cyberpunk2077" class="help-wizard-button">
-                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" alt="Cyberpunk 2077">
-                    <span>Cyberpunk 2077</span>
-                </a>
-                <a href="game.html?id=csgo" class="help-wizard-button">
-                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2">
-                    <span>Counter-Strike 2</span>
-                </a>
-                <a href="game.html?id=dota2" class="help-wizard-button">
-                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2">
-                    <span>Dota 2</span>
-                </a>
-
-                <div class="help-divider"></div>
-
-                <a href="index.html" class="help-wizard-button more-link-button">
-                    <span>Игры, программы и т. д.</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <footer class="authors-footer">
-    <span class="footer-label">Разработчики :</span>
-    <span class="author-name">Белоцерковец Михаил</span>
-    <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
-        <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-    </a>
-    <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
-        <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-    </a>
-</footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownToggle = document.getElementById('mainDropdownToggle');
-            const dropdownMenu = document.getElementById('mainDropdownMenu');
-            
-            if (dropdownToggle && dropdownMenu) {
-                function closeDropdown() {
-                    dropdownMenu.classList.remove('show');
-                }
-
-                dropdownToggle.addEventListener('click', function(e) {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dropdownMenu.classList.toggle('show');
-                    }
-                });
-
-                document.addEventListener('click', function(e) {
-                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                        closeDropdown();
-                    }
-                });
-
-                window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768) {
-                        closeDropdown();
-                    }
-                });
-            }
-        });
-    </script>
-</body>
-</html>
+                <p>Войдите в свой аккаунт Kuronax
