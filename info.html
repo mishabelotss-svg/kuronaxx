@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>О проекте - Kurona</title>
+    <title>О проекте - Kuronaxx</title>
     <style>
         :root {
             --primary: #66c0f4;
@@ -53,7 +53,6 @@
         .logo-img {
             height: 45px;
             width: auto;
-            vertical-align: middle;
             display: block;
         }
 
@@ -299,68 +298,70 @@
             box-shadow: 0 5px 15px rgba(102, 192, 244, 0.4);
         }
 
-        footer {
+        .authors-footer {
             text-align: center;
-            padding: 30px;
-            margin-top: 60px;
-            color: var(--text-muted, rgba(199, 213, 224, 0.6));
-            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            margin-top: 50px;
+            background: rgba(0, 0, 0, 0.3);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
         }
 
-        .authors-footer {
-    text-align: center;
-    padding: 25px;
-    margin-top: 50px;
-    background: rgba(0, 0, 0, 0.3);
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.8);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
+        .authors-footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), transparent);
+        }
 
-.authors-footer::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--primary), transparent);
-}
+        .footer-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-.footer-label {
-    color: rgba(255, 255, 255, 0.8);
-}
+        .developer-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px;
+            border-radius: 40px;
+            margin: 5px;
+        }
 
-.author-name {
-    background: linear-gradient(to right, var(--accent), var(--primary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 600;
-}
+        .author-name {
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
 
-.social-link {
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.2s;
-    text-decoration: none;
-}
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.2s;
+            text-decoration: none;
+        }
 
-.social-link:hover {
-    transform: translateY(-2px);
-}
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
 
-.social-icon {
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-}
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
 
         @media (max-width: 768px) {
             .info-block {
@@ -393,6 +394,14 @@
             }
             .dropdown.active .dropdown-menu {
                 display: block;
+            }
+            .authors-footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .developer-block {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
@@ -461,25 +470,27 @@
         </div>
     </div>
 
-
-        <span class="author-name">Белоцерковец Михаил</span>
-        <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
-            <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-        </a>
-        <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
-            <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-        </a>
-    </div>
-    <div class="developer-block">
-        <span class="author-name">Салим Абду Рафаэль</span>
-        <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
-            <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-        </a>
-        <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
-            <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-        </a>
-    </div>
-</footer>
+    <footer class="authors-footer">
+        <span class="footer-label">Разработчики :</span>
+        <div class="developer-block">
+            <span class="author-name">Белоцерковец Михаил</span>
+            <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
+                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+            </a>
+            <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
+                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+            </a>
+        </div>
+        <div class="developer-block">
+            <span class="author-name">Салим Абду Рафаэль</span>
+            <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+            </a>
+            <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+            </a>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
