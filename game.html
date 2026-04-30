@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Детали игры - Kuronaxx</title>
     <style>
         :root {
@@ -192,6 +192,65 @@
             font-size: 1.1rem;
         }
 
+        /* --- Стили для видеофона --- */
+        .hero-video-container {
+            position: relative;
+            width: calc(100% + 10%);
+            margin-left: -5%;
+            margin-right: -5%;
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        .hero-bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 150px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(1px);
+            border-radius: 0;
+        }
+        .glass-effect {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 100px;
+        }
+        .hero-video-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(to top, var(--dark), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @media (min-width: 769px) {
+            .hero-video-container {
+                width: calc(100% + 10%);
+                margin-left: -5%;
+                border-radius: 15px;
+            }
+            .hero-content {
+                border-radius: 15px;
+            }
+        }
+        /* --- Конец стилей видеофона --- */
+
         .gallery {
             position: relative;
             margin: 40px 0;
@@ -249,7 +308,7 @@
             line-height: 1.8;
         }
 
-        /* --- НОВАЯ АНИМИРОВАННАЯ КНОПКА --- */
+        /* --- Анимированная кнопка --- */
         .play-btn {
             display: inline-block;
             padding: 16px 42px;
@@ -301,27 +360,15 @@
         }
 
         @keyframes gentlePulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 12px rgba(0, 184, 148, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 184, 148, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 184, 148, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); }
         }
 
         @keyframes strongPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(0, 184, 148, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(0, 184, 148, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(0, 184, 148, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 184, 148, 0); }
         }
 
         .particle {
@@ -342,7 +389,7 @@
                 opacity: 0;
             }
         }
-        /* --- КОНЕЦ НОВОЙ КНОПКИ --- */
+        /* --- Конец кнопки --- */
 
         .reviews-section {
             margin-top: 60px;
@@ -514,6 +561,7 @@
             vertical-align: middle;
         }
 
+        /* Адаптация под мобильные */
         @media (max-width: 768px) {
             .gallery {
                 height: 300px;
@@ -549,6 +597,16 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+            .hero-video-container {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 0;
+            }
+            .hero-content {
+                border-radius: 0;
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -580,23 +638,12 @@
     </div>
 
     <div class="container">
-        <div class="game-header">
+        <div class="game-header" id="gameHeader">
             <h1 class="game-title" id="gameTitle">Загрузка...</h1>
             <p class="game-subtitle" id="gameSubtitle"></p>
         </div>
 
-        <div class="gallery">
-            <img src="" alt="" class="gallery-main" id="mainImage">
-            <div class="gallery-nav">
-                <button class="gallery-btn" id="prevBtn">←</button>
-                <button class="gallery-btn" id="nextBtn">→</button>
-            </div>
-        </div>
-
-        <div class="game-info">
-            <p class="game-description" id="gameDescription"></p>
-            <a href="#" class="play-btn" id="playBtn">Играть</a>
-        </div>
+        <div id="dynamicContent"></div>
 
         <div class="reviews-section">
             <h2 class="section-title">Отзывы</h2>
@@ -628,10 +675,10 @@
         </div>
         <div class="developer-block">
             <span class="author-name">Салим Абду Рафаэль</span>
-            <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+            <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
                 <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
             </a>
-            <a href="#" class="social-link" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
                 <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
             </a>
         </div>
@@ -740,28 +787,100 @@
         const urlParams = new URLSearchParams(window.location.search);
         const gameId = urlParams.get('id');
         const game = games.find(g => g.id === gameId);
+        const dynamicContainer = document.getElementById('dynamicContent');
 
-        if (game) {
+        if (!game) {
+            document.body.innerHTML = '<div style="text-align: center; padding: 50px;"><h1>Игра не найдена</h1><a href="index.html" style="color: var(--primary);">Вернуться к каталогу</a></div>';
+        } else {
             document.getElementById('gameTitle').textContent = game.title;
             document.getElementById('gameSubtitle').textContent = game.subtitle;
-            document.getElementById('gameDescription').textContent = game.description;
-            
-            const playBtn = document.getElementById('playBtn');
-            playBtn.href = game.officialUrl;
+
+            let contentHtml = `
+                <div class="gallery">
+                    <img src="${game.images[0]}" alt="" class="gallery-main" id="mainImage">
+                    <div class="gallery-nav">
+                        <button class="gallery-btn" id="prevBtn">←</button>
+                        <button class="gallery-btn" id="nextBtn">→</button>
+                    </div>
+                </div>
+                <div class="game-info">
+                    <p class="game-description">${game.description}</p>
+                    <a href="${game.officialUrl}" class="play-btn" id="playBtn">Играть</a>
+                </div>
+            `;
+
+            // Добавляем видеофон для Forza Horizon 6, Cyberpunk 2077, Dota 2 и GTA V
+            if (gameId === 'forzah6') {
+                contentHtml = `
+                    <div class="hero-video-container">
+                        <video autoplay loop muted playsinline class="hero-bg-video">
+                            <source src="videos/backsideforza6.mp4" type="video/mp4">
+                        </video>
+                        <div class="hero-content">
+                            <div class="glass-effect">
+                                ${contentHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (gameId === 'cyberpunk2077') {
+                contentHtml = `
+                    <div class="hero-video-container">
+                        <video autoplay loop muted playsinline class="hero-bg-video">
+                            <source src="videos/backsidecyber77.mp4" type="video/mp4">
+                        </video>
+                        <div class="hero-content">
+                            <div class="glass-effect">
+                                ${contentHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (gameId === 'dota2') {
+                contentHtml = `
+                    <div class="hero-video-container">
+                        <video autoplay loop muted playsinline class="hero-bg-video">
+                            <source src="videos/backsidedota.mp4" type="video/mp4">
+                        </video>
+                        <div class="hero-content">
+                            <div class="glass-effect">
+                                ${contentHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (gameId === 'gta5') {
+                contentHtml = `
+                    <div class="hero-video-container">
+                        <video autoplay loop muted playsinline class="hero-bg-video">
+                            <source src="videos/backsidegta5.mp4" type="video/mp4">
+                        </video>
+                        <div class="hero-content">
+                            <div class="glass-effect">
+                                ${contentHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            dynamicContainer.innerHTML = contentHtml;
 
             let currentImageIndex = 0;
             const mainImage = document.getElementById('mainImage');
-            mainImage.src = game.images[0];
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
 
-            document.getElementById('prevBtn').addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex - 1 + game.images.length) % game.images.length;
-                mainImage.src = game.images[currentImageIndex];
-            });
-
-            document.getElementById('nextBtn').addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex + 1) % game.images.length;
-                mainImage.src = game.images[currentImageIndex];
-            });
+            if (prevBtn && nextBtn && game.images.length > 1) {
+                prevBtn.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex - 1 + game.images.length) % game.images.length;
+                    mainImage.src = game.images[currentImageIndex];
+                });
+                nextBtn.addEventListener('click', () => {
+                    currentImageIndex = (currentImageIndex + 1) % game.images.length;
+                    mainImage.src = game.images[currentImageIndex];
+                });
+            }
 
             const reviewList = document.getElementById('reviewList');
             const reviewName = document.getElementById('reviewName');
@@ -796,61 +915,61 @@
                 });
             }
 
-            submitBtn.addEventListener('click', () => {
-                const name = reviewName.value.trim();
-                const text = reviewText.value.trim();
-                if (!name || !text) {
-                    alert('Пожалуйста, заполните имя и отзыв');
-                    return;
-                }
-                const reviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
-                reviews.push({
-                    name: name,
-                    text: text,
-                    date: new Date().toLocaleDateString('ru-RU')
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => {
+                    const name = reviewName.value.trim();
+                    const text = reviewText.value.trim();
+                    if (!name || !text) {
+                        alert('Пожалуйста, заполните имя и отзыв');
+                        return;
+                    }
+                    const reviews = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    reviews.push({
+                        name: name,
+                        text: text,
+                        date: new Date().toLocaleDateString('ru-RU')
+                    });
+                    localStorage.setItem(storageKey, JSON.stringify(reviews));
+                    reviewName.value = '';
+                    reviewText.value = '';
+                    loadReviews();
                 });
-                localStorage.setItem(storageKey, JSON.stringify(reviews));
-                reviewName.value = '';
-                reviewText.value = '';
-                loadReviews();
-            });
-
+            }
             loadReviews();
 
-            // --- ЭФФЕКТ ЧАСТИЦ ПРИ КЛИКЕ ---
-            function createParticle(x, y, container) {
-                const particle = document.createElement('span');
-                particle.classList.add('particle');
-                particle.style.left = `${x}px`;
-                particle.style.top = `${y}px`;
-                particle.style.width = `${Math.random() * 8 + 4}px`;
-                particle.style.height = particle.style.width;
-                particle.style.background = `radial-gradient(circle, #00ff9d, #008f5f)`;
-                particle.style.setProperty('--dx', `${(Math.random() - 0.5) * 100}px`);
-                particle.style.setProperty('--dy', `${(Math.random() - 0.5) * 100 - 40}px`);
-                container.appendChild(particle);
-                setTimeout(() => particle.remove(), 700);
-            }
-
-            function addParticles(event) {
-                const rect = playBtn.getBoundingClientRect();
-                const x = event.clientX - rect.left;
-                const y = event.clientY - rect.top;
-                for (let i = 0; i < 12; i++) {
-                    createParticle(x, y, playBtn);
+            const playBtn = document.getElementById('playBtn');
+            if (playBtn) {
+                function createParticle(x, y, container) {
+                    const particle = document.createElement('span');
+                    particle.classList.add('particle');
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    particle.style.width = `${Math.random() * 8 + 4}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.background = `radial-gradient(circle, #00ff9d, #008f5f)`;
+                    particle.style.setProperty('--dx', `${(Math.random() - 0.5) * 100}px`);
+                    particle.style.setProperty('--dy', `${(Math.random() - 0.5) * 100 - 40}px`);
+                    container.appendChild(particle);
+                    setTimeout(() => particle.remove(), 700);
                 }
-            }
 
-            playBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                addParticles(e);
-                setTimeout(() => {
-                    window.location.href = playBtn.href;
-                }, 200);
-            });
-            // --- КОНЕЦ ЭФФЕКТА ЧАСТИЦ ---
-        } else {
-            document.body.innerHTML = '<div style="text-align: center; padding: 50px;"><h1>Игра не найдена</h1><a href="index.html" style="color: var(--primary);">Вернуться к каталогу</a></div>';
+                function addParticles(event) {
+                    const rect = playBtn.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    for (let i = 0; i < 12; i++) {
+                        createParticle(x, y, playBtn);
+                    }
+                }
+
+                playBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    addParticles(e);
+                    setTimeout(() => {
+                        window.location.href = playBtn.href;
+                    }, 200);
+                });
+            }
         }
     </script>
 </body>
