@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Kuronaxx - Каталог видеоигр</title>
     <style>
         :root {
@@ -28,19 +28,25 @@
             padding-bottom: 50px;
         }
 
+        /* Анимированная шапка */
         header {
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        header.hide {
+            transform: translateY(-100%);
         }
 
         .logo-container {
@@ -78,6 +84,7 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .login-link:hover {
@@ -85,39 +92,60 @@
             transform: translateY(-2px);
         }
 
-        .user-name {
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 15px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+        }
+
+        .user-name-link {
             color: var(--light);
+            text-decoration: none;
             font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .user-name-link:hover {
+            color: var(--primary);
         }
 
         .logout-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 6px 15px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .logout-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         .search {
             flex: 1;
-            min-width: 250px;
-            max-width: 500px;
+            min-width: 200px;
+            max-width: 400px;
         }
 
         .search input {
             width: 100%;
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 50px;
             border: none;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             transition: all 0.3s;
         }
@@ -127,13 +155,15 @@
             box-shadow: 0 0 0 3px rgba(102, 192, 244, 0.3);
         }
 
+        /* Меню категорий */
         .category-bar {
             background: #171a21;
             border-bottom: 1px solid #2d2f33;
             padding: 10px 0;
             width: 100%;
-            position: relative;
-            z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
 
         .category-container {
@@ -222,8 +252,65 @@
             color: var(--primary);
         }
 
+        /* Контейнер с фоновым изображением */
+        .catalog-section {
+            position: relative;
+            background-color: var(--dark);
+        }
+
+        /* Фиксированное фоновое изображение только для области каталога */
+        .catalog-section::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/avatar.jpg');
+            background-size: auto 445px;
+            background-repeat: no-repeat;
+            background-position: center 110px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Затемнение и переходы поверх фона */
+        .catalog-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(
+                to bottom,
+                var(--dark) 0%,
+                transparent 80px,
+                transparent calc(100% - 80px),
+                var(--dark) 100%
+            );
+        }
+
+        /* Дополнительные затемнения по бокам (градиент к чёрному) */
+        .catalog-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                #000000 0%,
+                transparent 10%,
+                transparent 90%,
+                #000000 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
         .container {
             padding: 30px 5%;
+            position: relative;
+            z-index: 4;
         }
 
         h1 {
@@ -251,6 +338,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-decoration: none;
             color: inherit;
+            backdrop-filter: blur(2px);
         }
 
         .game-card:hover {
@@ -342,10 +430,10 @@
             color: rgba(255, 255, 255, 0.8);
             position: relative;
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
+            gap: 20px;
         }
 
         .authors-footer::before {
@@ -361,6 +449,16 @@
 
         .footer-label {
             color: rgba(255, 255, 255, 0.8);
+        }
+
+        .developer-block {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px;
+            border-radius: 40px;
+            margin: 5px;
         }
 
         .author-name {
@@ -388,6 +486,7 @@
             vertical-align: middle;
         }
 
+        /* Адаптация под мобильные */
         @media (max-width: 768px) {
             .games-grid {
                 grid-template-columns: 1fr;
@@ -396,14 +495,34 @@
             header {
                 flex-direction: column;
                 text-align: center;
+                padding: 15px;
             }
             
             .search {
                 width: 100%;
+                max-width: 100%;
             }
 
             .category-container {
                 justify-content: center;
+            }
+
+            .header-right {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .user-info {
+                padding: 5px 12px;
+            }
+
+            .user-name-link {
+                font-size: 0.9rem;
+            }
+
+            .logout-btn {
+                padding: 5px 12px;
+                font-size: 0.8rem;
             }
 
             .dropdown-menu {
@@ -420,11 +539,50 @@
             .dropdown.active .dropdown-menu {
                 display: block;
             }
+
+            .authors-footer {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .developer-block {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            /* На телефонах фоновое изображение отключаем */
+            .catalog-section::before {
+                display: none;
+            }
+            .catalog-overlay {
+                background: var(--dark);
+            }
+            .catalog-overlay::before {
+                display: none;
+            }
+            .game-card {
+                backdrop-filter: none;
+            }
+        }
+
+        /* Десктопная версия: показываем фон */
+        @media (min-width: 769px) {
+            .catalog-section::before {
+                opacity: 1;
+            }
+            .catalog-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    var(--dark) 0%,
+                    transparent 80px,
+                    transparent calc(100% - 80px),
+                    var(--dark) 100%
+                );
+            }
         }
     </style>
 </head>
 <body>
-    <header>
+    <header id="mainHeader">
         <a href="index.html" class="logo-container">
             <img src="images/logo.png" alt="Kuronaxx" class="logo-img">
             <span class="logo-text">Kurona</span>
@@ -434,8 +592,10 @@
         </div>
         <div class="header-right">
             <div id="userInfo" style="display: none;">
-                <span id="userName" class="user-name"></span>
-                <button id="logoutBtn" class="logout-btn">Выйти</button>
+                <div class="user-info">
+                    <a href="profile.html" class="user-name-link" id="userNameLink"></a>
+                    <button id="logoutBtn" class="logout-btn">Выйти</button>
+                </div>
             </div>
             <a href="login.html" id="loginLink" class="login-link">Войти</a>
         </div>
@@ -459,221 +619,239 @@
         </div>
     </div>
 
-    <div class="container">
-        <h1>Каталог видеоигр</h1>
-        <div class="games-grid" id="gamesContainer"></div>
+    <!-- Область каталога с фоном -->
+    <div class="catalog-section">
+        <div class="catalog-overlay">
+            <div class="container">
+                <h1>Каталог видеоигр</h1>
+                <div class="games-grid" id="gamesContainer"></div>
+            </div>
+        </div>
     </div>
 
     <footer class="authors-footer">
-    <span class="footer-label">Разработчики :</span>
-    <div class="developer-block">
-        <span class="author-name">Белоцерковец Михаил</span>
-        <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
-            <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-        </a>
-        <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
-            <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-        </a>
-    </div>
-    <div class="developer-block">
-        <span class="author-name">Салим Абду Рафаэль</span>
-        <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
-            <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-        </a>
-        <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
-            <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-        </a>
-    </div>
-</footer>
+        <span class="footer-label">Разработчики :</span>
+        <div class="developer-block">
+            <span class="author-name">Белоцерковец Михаил</span>
+            <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
+                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+            </a>
+            <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
+                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+            </a>
+        </div>
+        <div class="developer-block">
+            <span class="author-name">Салим Абду Рафаэль</span>
+            <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
+                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+            </a>
+            <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
+                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+            </a>
+        </div>
+    </footer>
 
     <script src="scripts/auth.js"></script>
     <script>
-const games = [
-    {
-        id: "witcher3",
-        title: "The Witcher 3: Wild Hunt",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
-        description: "Эпическая RPG с открытым миром от CD Projekt Red",
-        rating: 4.9
-    },
-    {
-        id: "cyberpunk2077",
-        title: "Cyberpunk 2077",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
-        description: "Футуристический экшен-RPG в мире Найт-Сити",
-        rating: 4.2
-    },
-    {
-        id: "csgo",
-        title: "Counter-Strike 2",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
-        description: "Культовый тактический шутер от Valve",
-        rating: 4.8
-    },
-    {
-        id: "dota2",
-        title: "Dota 2",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg",
-        description: "Популярная MOBA-игра с миллионами игроков",
-        rating: 4.7
-    },
-    {
-        id: "gta5",
-        title: "Grand Theft Auto V",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
-        description: "Легендарная игра в жанре action-adventure",
-        rating: 4.9
-    },
-    {
-        id: "eldenring",
-        title: "Elden Ring",
-        image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
-        description: "Фэнтезийная action-RPG от создателей Dark Souls",
-        rating: 4.8
-    },
-    {
-        id: "fifa26",
-        title: "EA SPORTS FC 26",
-        image: "https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85",
-        description: "Официальный футбольный симулятор с тысячами лицензированных игроков, команд и стадионов. Новая физика мяча и улучшенный ИИ делают каждый матч непредсказуемым.",
-        rating: 4.5
-    },
-    {
-        id: "forzah6",
-        title: "Forza Horizon 6",
-        image: "https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork",
-        description: "Новая часть популярной гоночной аркады с открытым миром. Исследуйте огромный мир, участвуйте в захватывающих гонках и настраивайте свои автомобили.",
-        rating: 4.8
-    }
-];
+        const games = [
+            {
+                id: "witcher3",
+                title: "The Witcher 3: Wild Hunt",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+                description: "Эпическая RPG с открытым миром от CD Projekt Red",
+                rating: 4.9
+            },
+            {
+                id: "cyberpunk2077",
+                title: "Cyberpunk 2077",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+                description: "Футуристический экшен-RPG в мире Найт-Сити",
+                rating: 4.2
+            },
+            {
+                id: "csgo",
+                title: "Counter-Strike 2",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+                description: "Культовый тактический шутер от Valve",
+                rating: 4.8
+            },
+            {
+                id: "dota2",
+                title: "Dota 2",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg",
+                description: "Популярная MOBA-игра с миллионами игроков",
+                rating: 4.7
+            },
+            {
+                id: "gta5",
+                title: "Grand Theft Auto V",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+                description: "Легендарная игра в жанре action-adventure",
+                rating: 4.9
+            },
+            {
+                id: "eldenring",
+                title: "Elden Ring",
+                image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+                description: "Фэнтезийная action-RPG от создателей Dark Souls",
+                rating: 4.8
+            },
+            {
+                id: "fifa26",
+                title: "EA SPORTS FC 26",
+                image: "https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85",
+                description: "Официальный футбольный симулятор с тысячами лицензированных игроков, команд и стадионов. Новая физика мяча и улучшенный ИИ делают каждый матч непредсказуемым.",
+                rating: 4.5
+            },
+            {
+                id: "forzah6",
+                title: "Forza Horizon 6",
+                image: "https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork",
+                description: "Новая часть популярной гоночной аркады с открытым миром. Исследуйте огромный мир, участвуйте в захватывающих гонках и настраивайте свои автомобили.",
+                rating: 4.8
+            }
+        ];
 
-function displayGames(gamesToShow) {
-    const container = document.getElementById('gamesContainer');
-    container.innerHTML = '';
+        function displayGames(gamesToShow) {
+            const container = document.getElementById('gamesContainer');
+            container.innerHTML = '';
 
-    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
 
-    gamesToShow.forEach(game => {
-        const isInWishlist = wishlist.some(item => item.id === game.id);
-        const heartColor = isInWishlist ? 'red' : '#b8b6b4';
+            gamesToShow.forEach(game => {
+                const isInWishlist = wishlist.some(item => item.id === game.id);
+                const heartColor = isInWishlist ? 'red' : '#b8b6b4';
 
-        const card = document.createElement('a');
-        card.className = 'game-card';
-        card.href = `game.html?id=${game.id}`;
-        
-        card.innerHTML = `
-            <div class="game-image" style="background-image: url('${game.image}')"></div>
-            <div class="game-content">
-                <h3 class="game-title">${game.title}</h3>
-                <p class="game-description">${game.description}</p>
-                <div class="game-rating">
-                    <div class="stars">${'★'.repeat(Math.floor(game.rating))}${'☆'.repeat(5-Math.floor(game.rating))}</div>
-                    <div class="rating-value">${game.rating}/5</div>
-                </div>
-                <div class="wishlist-btn" data-id="${game.id}" data-title="${game.title}" data-image="${game.image}" data-description="${game.description}" data-rating="${game.rating}">
-                    <span style="color: ${heartColor};">❤</span>
-                    <span>В желаемое</span>
-                </div>
-            </div>
-        `;
-        
-        container.appendChild(card);
-    });
-}
-
-function filterGames() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const filteredGames = games.filter(game => 
-        game.title.toLowerCase().includes(searchTerm)
-    );
-    displayGames(filteredGames);
-}
-
-document.addEventListener('click', function(e) {
-    const wishlistBtn = e.target.closest('.wishlist-btn');
-    if (!wishlistBtn) return;
-    
-    e.preventDefault();
-    e.stopPropagation();
-
-    const id = wishlistBtn.dataset.id;
-    const title = wishlistBtn.dataset.title;
-    const image = wishlistBtn.dataset.image;
-    const description = wishlistBtn.dataset.description;
-    const rating = parseFloat(wishlistBtn.dataset.rating);
-
-    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    const index = wishlist.findIndex(item => item.id === id);
-
-    const heartSpan = wishlistBtn.querySelector('span:first-child');
-
-    if (index === -1) {
-        wishlist.push({ id, title, image, description, rating });
-        heartSpan.style.color = 'red';
-    } else {
-        wishlist.splice(index, 1);
-        heartSpan.style.color = '#b8b6b4';
-    }
-
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-});
-
-function updateUserInterface() {
-    const user = getCurrentUser();
-    const userInfo = document.getElementById('userInfo');
-    const loginLink = document.getElementById('loginLink');
-    const userNameSpan = document.getElementById('userName');
-    
-    if (user) {
-        if (userInfo) userInfo.style.display = 'flex';
-        if (loginLink) loginLink.style.display = 'none';
-        if (userNameSpan) userNameSpan.textContent = user.name;
-    } else {
-        if (userInfo) userInfo.style.display = 'none';
-        if (loginLink) loginLink.style.display = 'inline-block';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const dropdownToggle = document.getElementById('mainDropdownToggle');
-    const dropdownMenu = document.getElementById('mainDropdownMenu');
-    
-    if (dropdownToggle && dropdownMenu) {
-        function closeDropdown() {
-            dropdownMenu.classList.remove('show');
+                const card = document.createElement('a');
+                card.className = 'game-card';
+                card.href = `game.html?id=${game.id}`;
+                
+                card.innerHTML = `
+                    <div class="game-image" style="background-image: url('${game.image}')"></div>
+                    <div class="game-content">
+                        <h3 class="game-title">${game.title}</h3>
+                        <p class="game-description">${game.description}</p>
+                        <div class="game-rating">
+                            <div class="stars">${'★'.repeat(Math.floor(game.rating))}${'☆'.repeat(5-Math.floor(game.rating))}</div>
+                            <div class="rating-value">${game.rating}/5</div>
+                        </div>
+                        <div class="wishlist-btn" data-id="${game.id}" data-title="${game.title}" data-image="${game.image}" data-description="${game.description}" data-rating="${game.rating}">
+                            <span style="color: ${heartColor};">❤</span>
+                            <span>В желаемое</span>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
         }
 
-        dropdownToggle.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                e.stopPropagation();
-                dropdownMenu.classList.toggle('show');
-            }
-        });
+        function filterGames() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredGames = games.filter(game => 
+                game.title.toLowerCase().includes(searchTerm)
+            );
+            displayGames(filteredGames);
+        }
 
         document.addEventListener('click', function(e) {
-            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                closeDropdown();
+            const wishlistBtn = e.target.closest('.wishlist-btn');
+            if (!wishlistBtn) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+
+            const id = wishlistBtn.dataset.id;
+            const title = wishlistBtn.dataset.title;
+            const image = wishlistBtn.dataset.image;
+            const description = wishlistBtn.dataset.description;
+            const rating = parseFloat(wishlistBtn.dataset.rating);
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const index = wishlist.findIndex(item => item.id === id);
+
+            const heartSpan = wishlistBtn.querySelector('span:first-child');
+
+            if (index === -1) {
+                wishlist.push({ id, title, image, description, rating });
+                heartSpan.style.color = 'red';
+            } else {
+                wishlist.splice(index, 1);
+                heartSpan.style.color = '#b8b6b4';
             }
+
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
         });
 
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                closeDropdown();
+        function updateUserInterface() {
+            const user = getCurrentUser();
+            const userInfo = document.getElementById('userInfo');
+            const loginLink = document.getElementById('loginLink');
+            const userNameLink = document.getElementById('userNameLink');
+            
+            if (user) {
+                if (userInfo) userInfo.style.display = 'block';
+                if (loginLink) loginLink.style.display = 'none';
+                if (userNameLink) userNameLink.textContent = "Мой профиль";
+            } else {
+                if (userInfo) userInfo.style.display = 'none';
+                if (loginLink) loginLink.style.display = 'inline-block';
             }
+        }
+
+        let lastScroll = 0;
+        const header = document.getElementById('mainHeader');
+        
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                header.classList.add('hide');
+            } else if (currentScroll < lastScroll) {
+                header.classList.remove('hide');
+            }
+            lastScroll = currentScroll;
         });
-    }
 
-    displayGames(games);
-    document.getElementById('searchInput').addEventListener('input', filterGames);
-    updateUserInterface();
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggle = document.getElementById('mainDropdownToggle');
+            const dropdownMenu = document.getElementById('mainDropdownMenu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                function closeDropdown() {
+                    dropdownMenu.classList.remove('show');
+                }
 
-document.getElementById('logoutBtn')?.addEventListener('click', function() {
-    logoutUser();
-    updateUserInterface();
-    window.location.reload();
-});
-</script>
+                dropdownToggle.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropdownMenu.classList.toggle('show');
+                    }
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        closeDropdown();
+                    }
+                });
+
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        closeDropdown();
+                    }
+                });
+            }
+
+            displayGames(games);
+            document.getElementById('searchInput').addEventListener('input', filterGames);
+            updateUserInterface();
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
+            logoutUser();
+            updateUserInterface();
+            window.location.reload();
+        });
+    </script>
 </body>
 </html>
