@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>О проекте - Kurona</title>
     <style>
         :root {
@@ -31,12 +31,12 @@
         header {
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
-            padding: 20px 5%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -64,13 +64,76 @@
             letter-spacing: 1px;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .login-link {
+            background: var(--primary);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .login-link:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 15px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+        }
+
+        .user-name-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .user-name-link:hover {
+            color: var(--primary);
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
         .category-bar {
             background: #171a21;
             border-bottom: 1px solid #2d2f33;
             padding: 10px 0;
             width: 100%;
-            position: relative;
-            z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
 
         .category-container {
@@ -159,10 +222,67 @@
             color: var(--primary);
         }
 
+        /* ----- ОСНОВНАЯ ОБЛАСТЬ С ФОНОМ (только под блоком инфо) ----- */
+        .info-section {
+            position: relative;
+            background-color: var(--dark);
+        }
+
+        /* Фиксированное фоновое изображение */
+        .info-section::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/aboutus.jpg');
+            background-size: auto 445px;
+            background-repeat: no-repeat;
+            background-position: center 110px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Затемнение и переходы поверх фона */
+        .info-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(
+                to bottom,
+                var(--dark) 0%,
+                transparent 80px,
+                transparent calc(100% - 80px),
+                var(--dark) 100%
+            );
+        }
+
+        /* Боковые затемнения (градиент к чёрному) */
+        .info-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                #000000 0%,
+                transparent 10%,
+                transparent 90%,
+                #000000 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
         .container {
             padding: 30px 5%;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 4;
         }
 
         .info-block {
@@ -170,6 +290,9 @@
             gap: 30px;
             margin-bottom: 60px;
             align-items: stretch;
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
+            padding: 10px;
         }
 
         .info-text {
@@ -189,10 +312,20 @@
             color: transparent;
         }
 
-        .info-text p {
+        /* Полупрозрачный фон для основного описания */
+        .info-description {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 15px 20px;
+            border-radius: 16px;
+            margin-top: 5px;
+        }
+
+        .info-description p {
+            margin-bottom: 0;
             font-size: 1.2rem;
             line-height: 1.6;
-            color: var(--light);
+            color: rgba(255,255,255,0.9);
         }
 
         .info-video {
@@ -226,6 +359,8 @@
             overflow: hidden;
             margin-top: 40px;
             margin-bottom: 40px;
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
         }
 
         .hero-text {
@@ -277,6 +412,9 @@
         .back-to-catalog {
             text-align: center;
             margin: 50px 0 30px;
+            backdrop-filter: blur(2px);
+            padding: 10px;
+            border-radius: 15px;
         }
 
         .back-to-catalog a {
@@ -324,20 +462,6 @@
             background: linear-gradient(to right, transparent, var(--primary), transparent);
         }
 
-        .footer-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .developer-block {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.05);
-            padding: 5px 15px;
-            border-radius: 40px;
-            margin: 5px;
-        }
-
         .author-name {
             background: linear-gradient(to right, var(--accent), var(--primary));
             -webkit-background-clip: text;
@@ -367,7 +491,6 @@
             .info-block {
                 flex-direction: column;
             }
-
             .hero-section {
                 min-height: 500px;
             }
@@ -403,6 +526,42 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+            .info-description {
+                padding: 12px 15px;
+                margin: 10px 0 0;
+            }
+            .info-description p {
+                font-size: 1rem;
+            }
+
+            /* Отключаем фон на телефонах */
+            .info-section::before {
+                display: none;
+            }
+            .info-overlay {
+                background: var(--dark);
+            }
+            .info-overlay::before {
+                display: none;
+            }
+            .info-block, .hero-section, .back-to-catalog {
+                backdrop-filter: none;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .info-section::before {
+                opacity: 1;
+            }
+            .info-overlay {
+                background: linear-gradient(
+                    to bottom,
+                    var(--dark) 0%,
+                    transparent 80px,
+                    transparent calc(100% - 80px),
+                    var(--dark) 100%
+                );
+            }
         }
     </style>
 </head>
@@ -412,6 +571,15 @@
             <img src="images/logo.png" alt="Kurona" class="logo-img">
             <span class="logo-text">Kurona</span>
         </a>
+        <div class="header-right">
+            <div id="userInfo" style="display: none;">
+                <div class="user-info">
+                    <a href="profile.html" class="user-name-link" id="userNameLink"></a>
+                    <button id="logoutBtn" class="logout-btn">Выйти</button>
+                </div>
+            </div>
+            <a href="login.html" id="loginLink" class="login-link">Войти</a>
+        </div>
     </header>
 
     <div class="category-bar">
@@ -419,12 +587,8 @@
             <div class="dropdown">
                 <a href="index.html" class="category-item" id="mainDropdownToggle">Главная</a>
                 <div class="dropdown-menu" id="mainDropdownMenu">
-                    <div class="submenu-content">
-                        <a href="new.html">Новинки →</a>
-                    </div>
-                    <div class="submenu-content">
-                        <a href="wishlist.html">Список желаемого →</a>
-                    </div>
+                    <div class="submenu-content"><a href="new.html">Новинки →</a></div>
+                    <div class="submenu-content"><a href="wishlist.html">Список желаемого →</a></div>
                 </div>
             </div>
             <a href="info.html" class="category-item active">Информация</a>
@@ -432,41 +596,49 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="info-block">
-            <div class="info-text">
-                <h2>О проекте Kurona</h2>
-                <p>Kurona — это удобный каталог видеоигр с подробными описаниями, рейтингами и отзывами, созданный для настоящих геймеров.</p>
-            </div>
-            <div class="info-video">
-                <video autoplay loop muted playsinline>
-                    <source src="videos/about-project.mp4" type="video/mp4">
-                    Ваш браузер не поддерживает встроенные видео. Вы можете <a href="videos/about-project.mp4">скачать файл</a>.
-                </video>
-            </div>
-        </div>
+    <!-- Область информации с фоном (только под блоком контента) -->
+    <div class="info-section">
+        <div class="info-overlay">
+            <div class="container">
+                <div class="info-block">
+                    <div class="info-text">
+                        <h2>О проекте Kurona</h2>
+                        <div class="info-description">
+                            <p>Kurona — это удобный каталог видеоигр с подробными описаниями, рейтингами и отзывами, созданный для настоящих геймеров.</p>
+                        </div>
+                    </div>
+                    <div class="info-video">
+                        <video autoplay loop muted playsinline>
+                            <source src="videos/about-project.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает встроенные видео. Вы можете <a href="videos/about-project.mp4">скачать файл</a>.
+                        </video>
+                    </div>
+                </div>
 
-        <div class="hero-section">
-            <div class="hero-text">
-                <h1>Мгновенный доступ к играм</h1>
-                <p>Kurona предлагает игры на любой вкус, а также эксклюзивные предложения, автоматическое обновление игр и другие замечательные возможности.</p>
-            </div>
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 5%; left: 2%; width: 200px; transform: rotate(-8deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 15%; left: 10%; width: 160px; transform: rotate(5deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 40%; left: 5%; width: 180px; transform: rotate(-12deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 60%; left: 15%; width: 150px; transform: rotate(10deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" class="floating-game" style="top: 75%; left: 3%; width: 190px; transform: rotate(-5deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" class="floating-game" style="top: 8%; right: 2%; width: 170px; transform: rotate(7deg);">
-            <img src="https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85" class="floating-game" style="top: 20%; right: 12%; width: 210px; transform: rotate(-6deg);">
-            <img src="https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork" class="floating-game" style="top: 45%; right: 5%; width: 180px; transform: rotate(15deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 65%; right: 18%; width: 160px; transform: rotate(-9deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 80%; right: 8%; width: 200px; transform: rotate(3deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 30%; left: 20%; width: 140px; transform: rotate(-15deg);">
-            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 50%; right: 25%; width: 150px; transform: rotate(8deg);">
-        </div>
+                <div class="hero-section">
+                    <div class="hero-text">
+                        <h1>Мгновенный доступ к играм</h1>
+                        <p>Kurona предлагает игры на любой вкус, а также эксклюзивные предложения, автоматическое обновление игр и другие замечательные возможности.</p>
+                    </div>
+                    <!-- разбросанные картинки (floating-game) -->
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 5%; left: 2%; width: 200px; transform: rotate(-8deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 15%; left: 10%; width: 160px; transform: rotate(5deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 40%; left: 5%; width: 180px; transform: rotate(-12deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 60%; left: 15%; width: 150px; transform: rotate(10deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg" class="floating-game" style="top: 75%; left: 3%; width: 190px; transform: rotate(-5deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg" class="floating-game" style="top: 8%; right: 2%; width: 170px; transform: rotate(7deg);">
+                    <img src="https://drop-assets.ea.com/images/4c7xKKfueTCbSbHbfU5fKM/db6c49c1cc9c9e239658839ac330b8e0/sdt_edit.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85" class="floating-game" style="top: 20%; right: 12%; width: 210px; transform: rotate(-6deg);">
+                    <img src="https://img.redbull.com/images/c_crop,w_1920,h_960,x_0,y_0/c_auto,w_1200,h_630/f_auto,q_auto/redbullcom/2025/9/26/mhtahgg8zbgibnvcbz2w/forza-horizon-6-artwork" class="floating-game" style="top: 45%; right: 5%; width: 180px; transform: rotate(15deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg" class="floating-game" style="top: 65%; right: 18%; width: 160px; transform: rotate(-9deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg" class="floating-game" style="top: 80%; right: 8%; width: 200px; transform: rotate(3deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" class="floating-game" style="top: 30%; left: 20%; width: 140px; transform: rotate(-15deg);">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" class="floating-game" style="top: 50%; right: 25%; width: 150px; transform: rotate(8deg);">
+                </div>
 
-        <div class="back-to-catalog">
-            <a href="index.html">Вернуться в каталог</a>
+                <div class="back-to-catalog">
+                    <a href="index.html">Вернуться в каталог</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -492,7 +664,24 @@
         </div>
     </footer>
 
+    <script src="scripts/auth.js"></script>
     <script>
+        function updateUserInterface() {
+            const user = getCurrentUser();
+            const userInfo = document.getElementById('userInfo');
+            const loginLink = document.getElementById('loginLink');
+            const userNameLink = document.getElementById('userNameLink');
+            
+            if (user) {
+                if (userInfo) userInfo.style.display = 'block';
+                if (loginLink) loginLink.style.display = 'none';
+                if (userNameLink) userNameLink.textContent = "Мой профиль";
+            } else {
+                if (userInfo) userInfo.style.display = 'none';
+                if (loginLink) loginLink.style.display = 'inline-block';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownToggle = document.getElementById('mainDropdownToggle');
             const dropdownMenu = document.getElementById('mainDropdownMenu');
@@ -522,6 +711,13 @@
                     }
                 });
             }
+            updateUserInterface();
+        });
+
+        document.getElementById('logoutBtn')?.addEventListener('click', function() {
+            logoutUser();
+            updateUserInterface();
+            window.location.reload();
         });
     </script>
 </body>
