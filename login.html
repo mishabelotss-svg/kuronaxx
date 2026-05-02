@@ -325,5 +325,47 @@
             }
         });
     </script>
+
+<script>
+    // Всплывающее сообщение при клике на имя разработчика
+    document.querySelectorAll('.developer-block').forEach(block => {
+        block.addEventListener('click', (e) => {
+            // Чтобы сообщение не появлялось при клике на иконки соцсетей
+            if (e.target.closest('.social-link')) return;
+            
+            const name = block.querySelector('.author-name')?.innerText || 'разработчик';
+            // Создаём временное всплывающее уведомление
+            const toast = document.createElement('div');
+            toast.textContent = `Спасибо за посещение, ${name}!`;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                backdrop-filter: blur(10px);
+                color: #66c0f4;
+                padding: 12px 24px;
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                z-index: 10000;
+                border: 1px solid rgba(102,192,244,0.3);
+                box-shadow: 0 0 20px rgba(102,192,244,0.3);
+                opacity: 0;
+                transition: opacity 0.3s;
+                pointer-events: none;
+                white-space: nowrap;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '1'; }, 10);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        });
+    });
+</script>
+
 </body>
 </html>
