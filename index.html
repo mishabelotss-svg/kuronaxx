@@ -421,70 +421,167 @@
             font-size: 0.95rem;
         }
 
-        .authors-footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 50px;
-            background: rgba(0, 0, 0, 0.3);
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
-            position: relative;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
+        /* --- НОВЫЙ ФУТЕР --- */
+.authors-footer {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    margin-top: 50px;
+    padding: 25px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    z-index: 5;
+}
 
-        .authors-footer::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--primary), transparent);
-        }
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
 
-        .footer-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
+.footer-developers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
 
-        .developer-block {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255,255,255,0.05);
-            padding: 5px 15px;
-            border-radius: 40px;
-            margin: 5px;
-        }
+.developer-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 20px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    cursor: pointer;
+}
 
-        .author-name {
-            background: linear-gradient(to right, var(--accent), var(--primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 600;
-        }
+.developer-block:hover {
+    transform: translateY(-5px);
+    background: rgba(102, 192, 244, 0.2);
+    box-shadow: 0 8px 25px rgba(102, 192, 244, 0.3);
+}
 
-        .social-link {
-            display: inline-flex;
-            align-items: center;
-            transition: transform 0.2s;
-            text-decoration: none;
-        }
+.dev-icon {
+    font-size: 1.3rem;
+    filter: drop-shadow(0 0 2px rgba(102,192,244,0.5));
+}
 
-        .social-link:hover {
-            transform: translateY(-2px);
-        }
+.author-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.2s;
+}
 
-        .social-icon {
-            width: 24px;
-            height: 24px;
-            vertical-align: middle;
-        }
+.developer-block:hover .author-name {
+    color: var(--primary);
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.social-link:hover {
+    transform: translateY(-2px);
+    opacity: 1;
+}
+
+.social-icon {
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    filter: brightness(0.9);
+    transition: filter 0.2s;
+}
+
+.social-link:hover .social-icon {
+    filter: brightness(1.2);
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.footer-separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+.footer-copyright {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+/* Адаптация под телефон */
+@media (max-width: 768px) {
+    .authors-footer {
+        padding: 20px 15px;
+    }
+    
+    .footer-developers {
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+    }
+    
+    .developer-block {
+        justify-content: center;
+        flex-wrap: wrap;
+        padding: 8px 15px;
+        gap: 10px;
+    }
+    
+    .dev-icon {
+        font-size: 1.1rem;
+    }
+    
+    .author-name {
+        font-size: 0.9rem;
+    }
+    
+    .social-icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .footer-separator {
+        display: none;
+    }
+    
+    .footer-copyright {
+        font-size: 0.7rem;
+    }
+}
 
         /* Адаптация под мобильные */
         @media (max-width: 768px) {
@@ -630,26 +727,39 @@
     </div>
 
     <footer class="authors-footer">
-        <span class="footer-label">Разработчики :</span>
-        <div class="developer-block">
-            <span class="author-name">Белоцерковец Михаил</span>
-            <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
-                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-            </a>
-            <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
-                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-            </a>
+    <div class="footer-content">
+        <div class="footer-developers">
+            <div class="developer-block" data-name="Белоцерковец Михаил">
+                <span class="dev-icon">👨‍💻</span>
+                <span class="author-name">Белоцерковец Михаил</span>
+                <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
+                    <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+                </a>
+                <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
+                    <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+                </a>
+            </div>
+            <div class="developer-block" data-name="Салим Абду Рафаэль">
+                <span class="dev-icon">🎮</span>
+                <span class="author-name">Салим Абду Рафаэль</span>
+                <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
+                    <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+                </a>
+                <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
+                    <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+                </a>
+            </div>
         </div>
-        <div class="developer-block">
-            <span class="author-name">Салим Абду Рафаэль</span>
-            <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
-                <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-            </a>
-            <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
-                <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-            </a>
+        <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Политика конфиденциальности</a>
+            <span class="footer-separator">|</span>
+            <a href="terms.html" class="footer-link">Пользовательское соглашение</a>
         </div>
-    </footer>
+        <div class="footer-copyright">
+            © 2026 Kurona. Все права защищены.
+        </div>
+    </div>
+</footer>
 
     <script src="scripts/auth.js"></script>
     <script>
@@ -853,5 +963,47 @@
             window.location.reload();
         });
     </script>
+
+<script>
+    // Всплывающее сообщение при клике на имя разработчика
+    document.querySelectorAll('.developer-block').forEach(block => {
+        block.addEventListener('click', (e) => {
+            // Чтобы сообщение не появлялось при клике на иконки соцсетей
+            if (e.target.closest('.social-link')) return;
+            
+            const name = block.querySelector('.author-name')?.innerText || 'разработчик';
+            // Создаём временное всплывающее уведомление
+            const toast = document.createElement('div');
+            toast.textContent = `Спасибо за посещение, ${name}!`;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                backdrop-filter: blur(10px);
+                color: #66c0f4;
+                padding: 12px 24px;
+                border-radius: 50px;
+                font-size: 1rem;
+                font-weight: 600;
+                z-index: 10000;
+                border: 1px solid rgba(102,192,244,0.3);
+                box-shadow: 0 0 20px rgba(102,192,244,0.3);
+                opacity: 0;
+                transition: opacity 0.3s;
+                pointer-events: none;
+                white-space: nowrap;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '1'; }, 10);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        });
+    });
+</script>
+
 </body>
 </html>
