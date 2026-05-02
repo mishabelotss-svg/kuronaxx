@@ -26,16 +26,24 @@
             background: var(--dark);
             color: var(--light);
             min-height: 100vh;
-            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Шапка и меню */
         header {
             background: rgba(0, 0, 0, 0.7);
-            padding: 20px 5%;
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(5px);
+            flex-wrap: wrap;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .logo-container {
@@ -48,7 +56,6 @@
         .logo-img {
             height: 45px;
             width: auto;
-            vertical-align: middle;
             display: block;
         }
 
@@ -78,8 +85,9 @@
             border-bottom: 1px solid #2d2f33;
             padding: 10px 0;
             width: 100%;
-            position: relative;
-            z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 99;
         }
 
         .category-container {
@@ -168,10 +176,64 @@
             color: var(--primary);
         }
 
+        /* ----- ОСНОВНАЯ ОБЛАСТЬ С ФОНОВЫМ БАННЕРОМ (как в wishlist) ----- */
+        .game-section {
+            position: relative;
+            flex: 1;
+        }
+
+        .game-section::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/backandwishlist.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center 110px;
+            opacity: 1;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .game-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.5) 0%,
+                transparent 120px,
+                transparent calc(100% - 80px),
+                rgba(0,0,0,0.5) 100%
+            );
+        }
+
+        .game-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                #000000 0%,
+                transparent 10%,
+                transparent 90%,
+                #000000 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
         .container {
-            padding: 30px 5%;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 4;
         }
 
         .game-header {
@@ -192,7 +254,7 @@
             font-size: 1.1rem;
         }
 
-        /* --- Стили для видеофона --- */
+        /* --- Стили для видеофона (остаются без изменений) --- */
         .hero-video-container {
             position: relative;
             width: calc(100% + 10%);
@@ -483,25 +545,6 @@
             color: var(--primary);
         }
 
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 15% auto;
-                width: 95%;
-            }
-            .modal-video {
-                height: 300px;
-            }
-            .button-group {
-                flex-direction: column;
-            }
-            .play-btn, .trailer-btn {
-                width: 100%;
-            }
-            .hero-content {
-                padding: 30px 20px;
-            }
-        }
-
         .reviews-section {
             margin-top: 60px;
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -518,11 +561,11 @@
         }
 
         .review-form {
-            background: rgba(255,255,255,0.05);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
             padding: 25px;
             border-radius: 12px;
             margin-bottom: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .form-group {
@@ -543,7 +586,6 @@
             background: rgba(255,255,255,0.1);
             color: white;
             font-size: 1rem;
-            transition: all 0.3s;
         }
 
         .form-input:focus {
@@ -565,8 +607,6 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
         }
 
         .submit-btn:hover {
@@ -579,11 +619,11 @@
         }
 
         .review-item {
-            background: rgba(255,255,255,0.05);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
             padding: 20px;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .review-header {
@@ -608,169 +648,125 @@
         }
 
         /* --- НОВЫЙ ФУТЕР --- */
-.authors-footer {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    margin-top: 50px;
-    padding: 25px 20px;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    z-index: 5;
-}
+        .authors-footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            margin-top: 50px;
+            padding: 25px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 5;
+        }
 
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
 
-.footer-developers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-}
+        .footer-developers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
 
-.developer-block {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px 20px;
-    border-radius: 50px;
-    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    cursor: pointer;
-}
+        .developer-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+        }
 
-.developer-block:hover {
-    transform: translateY(-5px);
-    background: rgba(102, 192, 244, 0.2);
-    box-shadow: 0 8px 25px rgba(102, 192, 244, 0.3);
-}
+        .developer-block:hover {
+            transform: translateY(-5px);
+            background: rgba(102, 192, 244, 0.2);
+            box-shadow: 0 8px 25px rgba(102, 192, 244, 0.3);
+        }
 
-.dev-icon {
-    font-size: 1.3rem;
-    filter: drop-shadow(0 0 2px rgba(102,192,244,0.5));
-}
+        .dev-icon {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 2px rgba(102,192,244,0.5));
+        }
 
-.author-name {
-    font-size: 1rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.9);
-    transition: color 0.2s;
-}
+        .author-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.2s;
+        }
 
-.developer-block:hover .author-name {
-    color: var(--primary);
-}
+        .developer-block:hover .author-name {
+            color: var(--primary);
+        }
 
-.social-link {
-    display: inline-flex;
-    align-items: center;
-    transition: transform 0.2s;
-    text-decoration: none;
-    opacity: 0.8;
-}
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.2s;
+            text-decoration: none;
+            opacity: 0.8;
+        }
 
-.social-link:hover {
-    transform: translateY(-2px);
-    opacity: 1;
-}
+        .social-link:hover {
+            transform: translateY(-2px);
+            opacity: 1;
+        }
 
-.social-icon {
-    width: 22px;
-    height: 22px;
-    vertical-align: middle;
-    filter: brightness(0.9);
-    transition: filter 0.2s;
-}
+        .social-icon {
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+            filter: brightness(0.9);
+            transition: filter 0.2s;
+        }
 
-.social-link:hover .social-icon {
-    filter: brightness(1.2);
-}
+        .social-link:hover .social-icon {
+            filter: brightness(1.2);
+        }
 
-.footer-links {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-.footer-link {
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.2s;
-}
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
 
-.footer-link:hover {
-    color: var(--primary);
-    text-decoration: underline;
-}
+        .footer-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
 
-.footer-separator {
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.8rem;
-}
+        .footer-separator {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
 
-.footer-copyright {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
-}
+        .footer-copyright {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+        }
 
-/* Адаптация под телефон */
-@media (max-width: 768px) {
-    .authors-footer {
-        padding: 20px 15px;
-    }
-    
-    .footer-developers {
-        flex-direction: column;
-        gap: 15px;
-        width: 100%;
-    }
-    
-    .developer-block {
-        justify-content: center;
-        flex-wrap: wrap;
-        padding: 8px 15px;
-        gap: 10px;
-    }
-    
-    .dev-icon {
-        font-size: 1.1rem;
-    }
-    
-    .author-name {
-        font-size: 0.9rem;
-    }
-    
-    .social-icon {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .footer-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .footer-separator {
-        display: none;
-    }
-    
-    .footer-copyright {
-        font-size: 0.7rem;
-    }
-}
-
-        /* Адаптация под мобильные */
+        /* Адаптация под мобильные (общая) */
         @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
             .gallery {
                 height: 300px;
             }
@@ -800,10 +796,39 @@
             .authors-footer {
                 flex-direction: column;
                 gap: 12px;
+                padding: 20px 15px;
+            }
+            .footer-developers {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
             }
             .developer-block {
-                flex-wrap: wrap;
                 justify-content: center;
+                flex-wrap: wrap;
+                padding: 8px 15px;
+                gap: 10px;
+            }
+            .dev-icon {
+                font-size: 1.1rem;
+            }
+            .author-name {
+                font-size: 0.9rem;
+            }
+            .social-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            .footer-separator {
+                display: none;
+            }
+            .footer-copyright {
+                font-size: 0.7rem;
             }
             .hero-video-container {
                 width: 100%;
@@ -814,6 +839,23 @@
             .hero-content {
                 border-radius: 0;
                 padding: 20px;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+            .play-btn, .trailer-btn {
+                width: 100%;
+            }
+            .modal-content {
+                margin: 15% auto;
+                width: 95%;
+            }
+            .modal-video {
+                height: 300px;
+            }
+            /* Смещение фона на телефонах */
+            .game-section::before {
+                background-position: center 60px;
             }
         }
     </style>
@@ -845,28 +887,33 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="game-header" id="gameHeader">
-            <h1 class="game-title" id="gameTitle">Загрузка...</h1>
-            <p class="game-subtitle" id="gameSubtitle"></p>
-        </div>
-
-        <div id="dynamicContent"></div>
-
-        <div class="reviews-section">
-            <h2 class="section-title">Отзывы</h2>
-            <div class="review-form">
-                <div class="form-group">
-                    <label for="reviewName" class="form-label">Ваше имя</label>
-                    <input type="text" id="reviewName" class="form-input" required>
+    <!-- Область игры с фоновым баннером -->
+    <div class="game-section">
+        <div class="game-overlay">
+            <div class="container">
+                <div class="game-header" id="gameHeader">
+                    <h1 class="game-title" id="gameTitle">Загрузка...</h1>
+                    <p class="game-subtitle" id="gameSubtitle"></p>
                 </div>
-                <div class="form-group">
-                    <label for="reviewText" class="form-label">Ваш отзыв</label>
-                    <textarea id="reviewText" class="form-input" required></textarea>
+
+                <div id="dynamicContent"></div>
+
+                <div class="reviews-section">
+                    <h2 class="section-title">Отзывы</h2>
+                    <div class="review-form">
+                        <div class="form-group">
+                            <label for="reviewName" class="form-label">Ваше имя</label>
+                            <input type="text" id="reviewName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reviewText" class="form-label">Ваш отзыв</label>
+                            <textarea id="reviewText" class="form-input" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitReview">Отправить отзыв</button>
+                    </div>
+                    <div class="review-list" id="reviewList"></div>
                 </div>
-                <button type="submit" class="submit-btn" id="submitReview">Отправить отзыв</button>
             </div>
-            <div class="review-list" id="reviewList"></div>
         </div>
     </div>
 
@@ -879,39 +926,39 @@
     </div>
 
     <footer class="authors-footer">
-    <div class="footer-content">
-        <div class="footer-developers">
-            <div class="developer-block" data-name="Белоцерковец Михаил">
-                <span class="dev-icon">👨‍💻</span>
-                <span class="author-name">Белоцерковец Михаил</span>
-                <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
-                    <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-                </a>
-                <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
-                    <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-                </a>
+        <div class="footer-content">
+            <div class="footer-developers">
+                <div class="developer-block" data-name="Белоцерковец Михаил">
+                    <span class="dev-icon">👨‍💻</span>
+                    <span class="author-name">Белоцерковец Михаил</span>
+                    <a href="https://t.me/oblakk7" target="_blank" class="social-link" rel="noopener noreferrer">
+                        <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+                    </a>
+                    <a href="https://www.tiktok.com/@push_ok7?_r=1&_t=ZS-94zVxjJcI4q" target="_blank" class="social-link" rel="noopener noreferrer">
+                        <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+                    </a>
+                </div>
+                <div class="developer-block" data-name="Салим Абду Рафаэль">
+                    <span class="dev-icon">🎮</span>
+                    <span class="author-name">Салим Абду Рафаэль</span>
+                    <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
+                    </a>
+                    <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
+                    </a>
+                </div>
             </div>
-            <div class="developer-block" data-name="Салим Абду Рафаэль">
-                <span class="dev-icon">🎮</span>
-                <span class="author-name">Салим Абду Рафаэль</span>
-                <a href="https://t.me/rafayokk" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <img src="images/telegram-icon.png" alt="Telegram" class="social-icon">
-                </a>
-                <a href="https://www.tiktok.com/@j0tar0kuj0bizarre?_r=1&_d=eiac0m738k00f1&sec_uid=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&share_author_id=6835319270274384901&sharer_language=ru&source=h5_m&u_code=dckjf9em4kkc16&timestamp=1774774936&user_id=6835319270274384901&sec_user_id=MS4wLjABAAAAbF_z_VpCT_7bev139yuneBbfPrUR4ZJz0hXSh_8pPKw-QC3NYl2jqzSuN6A4rryk&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7563142557062022919&share_link_id=a7387d70-e20d-4d52-bfc8-60d180b5db73&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b8727%2Cb7360&social_share_type=5&enable_checksum=1" class="social-link" target="_blank" rel="noopener noreferrer">
-                    <img src="images/tiktok-icon.png" alt="TikTok" class="social-icon">
-                </a>
+            <div class="footer-links">
+                <a href="privacy.html" class="footer-link">Политика конфиденциальности</a>
+                <span class="footer-separator">|</span>
+                <a href="terms.html" class="footer-link">Пользовательское соглашение</a>
+            </div>
+            <div class="footer-copyright">
+                © 2026 Kurona. Все права защищены.
             </div>
         </div>
-        <div class="footer-links">
-            <a href="privacy.html" class="footer-link">Политика конфиденциальности</a>
-            <span class="footer-separator">|</span>
-            <a href="terms.html" class="footer-link">Пользовательское соглашение</a>
-        </div>
-        <div class="footer-copyright">
-            © 2026 Kurona. Все права защищены.
-        </div>
-    </div>
-</footer>
+    </footer>
 
     <script>
         const games = [
@@ -1032,10 +1079,7 @@
             document.getElementById('gameTitle').textContent = game.title;
             document.getElementById('gameSubtitle').textContent = game.subtitle;
 
-            // Формируем массив элементов галереи (только изображения)
             let galleryItems = [];
-            
-            // Добавляем все изображения
             game.images.forEach(img => {
                 galleryItems.push({
                     type: 'image',
@@ -1043,7 +1087,6 @@
                 });
             });
 
-            // Рендерим галерею
             let galleryHtml = '';
             if (galleryItems.length > 0) {
                 galleryHtml = `
@@ -1058,7 +1101,6 @@
                 `;
             }
 
-            // Формируем содержимое для героя (фон + контент)
             let heroContentHtml = `
                 ${galleryHtml}
                 <div class="game-info">
@@ -1066,12 +1108,10 @@
                 </div>
             `;
 
-            // Для игр с видеофоном – оборачиваем в hero-блок
             const hasVideoHero = (gameId === 'forzah6' || gameId === 'cyberpunk2077' || gameId === 'dota2' || gameId === 'gta5');
             let contentHtml = '';
 
             if (hasVideoHero) {
-                // Выбираем правильный путь к видео
                 let videoSrc = '';
                 if (gameId === 'forzah6') videoSrc = 'videos/backsideforza6.mp4';
                 else if (gameId === 'cyberpunk2077') videoSrc = 'videos/backsidecyber77.mp4';
@@ -1094,13 +1134,10 @@
                 contentHtml = heroContentHtml;
             }
 
-            // Добавляем кнопки (они будут после hero-блока)
             let buttonsHtml = `
                 <div class="button-group">
                     <a href="${game.officialUrl}" class="play-btn" id="playBtn">Играть</a>
             `;
-            
-            // Добавляем кнопку "Обзор игры", если trailerUrl существует и не равен "затычка"
             if (game.trailerUrl && game.trailerUrl !== "затычка") {
                 buttonsHtml += `
                     <button class="trailer-btn" id="trailerBtn">Обзор игры</button>
@@ -1108,10 +1145,8 @@
             }
             buttonsHtml += `</div>`;
 
-            // Вставляем всё в контейнер (сначала hero/галерея+описание, потом кнопки)
             dynamicContainer.innerHTML = contentHtml + buttonsHtml;
 
-            // Инициализация галереи
             if (galleryItems.length > 0) {
                 let currentIndex = 0;
                 const galleryItemDiv = document.getElementById('galleryItem');
@@ -1122,15 +1157,10 @@
                 function renderCurrentItem() {
                     const item = galleryItems[currentIndex];
                     galleryItemDiv.innerHTML = `<img src="${item.url}" alt="" class="gallery-main">`;
-                    
-                    // Обновляем точки
                     const dots = document.querySelectorAll('.dot');
                     dots.forEach((dot, idx) => {
-                        if (idx === currentIndex) {
-                            dot.classList.add('active');
-                        } else {
-                            dot.classList.remove('active');
-                        }
+                        if (idx === currentIndex) dot.classList.add('active');
+                        else dot.classList.remove('active');
                     });
                 }
 
@@ -1153,18 +1183,15 @@
                         currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
                         renderCurrentItem();
                     });
-
                     nextBtn.addEventListener('click', () => {
                         currentIndex = (currentIndex + 1) % galleryItems.length;
                         renderCurrentItem();
                     });
                 }
-
                 updateDots();
                 renderCurrentItem();
             }
 
-            // Модальное окно для видеообзора
             const modal = document.getElementById('videoModal');
             const modalVideo = document.getElementById('modalVideo');
             const closeModal = document.querySelector('.close-modal');
@@ -1177,7 +1204,6 @@
                     document.body.style.overflow = 'hidden';
                 });
             }
-
             if (closeModal) {
                 closeModal.addEventListener('click', () => {
                     modal.style.display = 'none';
@@ -1185,7 +1211,6 @@
                     document.body.style.overflow = 'auto';
                 });
             }
-
             window.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     modal.style.display = 'none';
@@ -1194,7 +1219,6 @@
                 }
             });
 
-            // Отзывы (localStorage)
             const reviewList = document.getElementById('reviewList');
             const reviewName = document.getElementById('reviewName');
             const reviewText = document.getElementById('reviewText');
@@ -1250,7 +1274,6 @@
             }
             loadReviews();
 
-            // Эффект частиц для кнопки "Играть"
             const playBtn = document.getElementById('playBtn');
             if (playBtn) {
                 function createParticle(x, y) {
@@ -1266,67 +1289,56 @@
                     playBtn.appendChild(particle);
                     setTimeout(() => particle.remove(), 700);
                 }
-
                 function addParticles(event) {
                     const rect = playBtn.getBoundingClientRect();
                     const x = event.clientX - rect.left;
                     const y = event.clientY - rect.top;
-                    for (let i = 0; i < 12; i++) {
-                        createParticle(x, y);
-                    }
+                    for (let i = 0; i < 12; i++) createParticle(x, y);
                 }
-
                 playBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     addParticles(e);
-                    setTimeout(() => {
-                        window.location.href = playBtn.href;
-                    }, 200);
+                    setTimeout(() => { window.location.href = playBtn.href; }, 200);
                 });
             }
         }
     </script>
 
-<script>
-    // Всплывающее сообщение при клике на имя разработчика
-    document.querySelectorAll('.developer-block').forEach(block => {
-        block.addEventListener('click', (e) => {
-            // Чтобы сообщение не появлялось при клике на иконки соцсетей
-            if (e.target.closest('.social-link')) return;
-            
-            const name = block.querySelector('.author-name')?.innerText || 'разработчик';
-            // Создаём временное всплывающее уведомление
-            const toast = document.createElement('div');
-            toast.textContent = `Спасибо за посещение, ${name}!`;
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 30px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(0,0,0,0.8);
-                backdrop-filter: blur(10px);
-                color: #66c0f4;
-                padding: 12px 24px;
-                border-radius: 50px;
-                font-size: 1rem;
-                font-weight: 600;
-                z-index: 10000;
-                border: 1px solid rgba(102,192,244,0.3);
-                box-shadow: 0 0 20px rgba(102,192,244,0.3);
-                opacity: 0;
-                transition: opacity 0.3s;
-                pointer-events: none;
-                white-space: nowrap;
-            `;
-            document.body.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '1'; }, 10);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 2000);
+    <script>
+        document.querySelectorAll('.developer-block').forEach(block => {
+            block.addEventListener('click', (e) => {
+                if (e.target.closest('.social-link')) return;
+                const name = block.querySelector('.author-name')?.innerText || 'разработчик';
+                const toast = document.createElement('div');
+                toast.textContent = `Спасибо за посещение, ${name}!`;
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0,0,0,0.8);
+                    backdrop-filter: blur(10px);
+                    color: #66c0f4;
+                    padding: 12px 24px;
+                    border-radius: 50px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    z-index: 10000;
+                    border: 1px solid rgba(102,192,244,0.3);
+                    box-shadow: 0 0 20px rgba(102,192,244,0.3);
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                    pointer-events: none;
+                    white-space: nowrap;
+                `;
+                document.body.appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '1'; }, 10);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
