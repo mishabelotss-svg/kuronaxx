@@ -13,6 +13,7 @@
             --accent: #2a475e;
             --success: #5c7e10;
             --text-muted: rgba(199, 213, 224, 0.6);
+            --playrock: #f39c12;
         }
 
         * {
@@ -176,7 +177,7 @@
             color: var(--primary);
         }
 
-        /* ----- ОСНОВНАЯ ОБЛАСТЬ С ФОНОВЫМ БАННЕРОМ (как в wishlist) ----- */
+        /* ----- ОСНОВНАЯ ОБЛАСТЬ С ФОНОВЫМ БАННЕРОМ ----- */
         .game-section {
             position: relative;
             flex: 1;
@@ -254,7 +255,7 @@
             font-size: 1.1rem;
         }
 
-        /* --- Стили для видеофона (остаются без изменений) --- */
+        /* --- Стили для видеофона --- */
         .hero-video-container {
             position: relative;
             width: calc(100% + 10%);
@@ -313,7 +314,7 @@
         }
         /* --- Конец стилей видеофона --- */
 
-        /* --- Стили для галереи (только скриншоты) --- */
+        /* --- Стили для галереи --- */
         .gallery {
             position: relative;
             margin: 40px 0;
@@ -402,7 +403,7 @@
         /* --- Контейнер для кнопок --- */
         .button-group {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             margin: 20px 0 0 0;
         }
@@ -410,14 +411,14 @@
         /* --- Анимированная кнопка "Играть" --- */
         .play-btn {
             display: inline-block;
-            padding: 14px 32px;
+            padding: 12px 24px;
             background: linear-gradient(135deg, #1e7e34, #00b894);
             color: white;
             text-decoration: none;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             border: none;
             cursor: pointer;
@@ -425,7 +426,7 @@
             overflow: hidden;
             text-align: center;
             flex: 1;
-            min-width: 180px;
+            min-width: 150px;
         }
 
         .play-btn::before {
@@ -447,7 +448,7 @@
         .play-btn:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 0 30px rgba(0, 184, 148, 0.8), 0 10px 20px rgba(0,0,0,0.2);
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .play-btn:active {
@@ -457,14 +458,14 @@
         /* --- Кнопка "Обзор игры" --- */
         .trailer-btn {
             display: inline-block;
-            padding: 14px 32px;
+            padding: 12px 24px;
             background: linear-gradient(135deg, #4b7bac, #2a475e);
             color: white;
             text-decoration: none;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             border: none;
             cursor: pointer;
@@ -472,7 +473,7 @@
             overflow: hidden;
             text-align: center;
             flex: 1;
-            min-width: 180px;
+            min-width: 150px;
         }
 
         .trailer-btn::before {
@@ -494,11 +495,97 @@
         .trailer-btn:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 0 20px rgba(102, 192, 244, 0.5);
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .trailer-btn:active {
             transform: translateY(1px) scale(0.98);
+        }
+
+        /* --- БЛОК ПАРТНЁРА PLAYROCK (Вариант Б) --- */
+        .partner-block {
+            margin-top: 25px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .partner-block:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: var(--playrock);
+        }
+
+        .partner-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .partner-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 12px;
+            filter: drop-shadow(0 0 5px rgba(243,156,18,0.5));
+        }
+
+        .partner-logo span {
+            font-size: 0.7rem;
+            color: var(--playrock);
+            font-weight: 600;
+        }
+
+        .partner-info {
+            flex: 1;
+        }
+
+        .partner-info h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: var(--light);
+        }
+
+        .partner-info p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 8px;
+        }
+
+        .partner-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .partner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243,156,18,0.4);
+            filter: brightness(1.05);
+        }
+
+        .partner-trust {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 5px;
+            text-align: center;
         }
 
         /* Модальное окно для видео */
@@ -647,7 +734,7 @@
             color: rgba(255,255,255,0.9);
         }
 
-        /* --- НОВЫЙ ФУТЕР --- */
+        /* --- ФУТЕР --- */
         .authors-footer {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
@@ -762,7 +849,7 @@
             text-align: center;
         }
 
-        /* Адаптация под мобильные (общая) */
+        /* Адаптация под мобильные */
         @media (max-width: 768px) {
             .container {
                 padding: 20px 15px;
@@ -793,6 +880,53 @@
             .dropdown.active .dropdown-menu {
                 display: block;
             }
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .play-btn, .trailer-btn {
+                width: 100%;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                min-width: auto;
+            }
+            .partner-block {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+                padding: 15px;
+            }
+            .partner-logo img {
+                width: 45px;
+                height: 45px;
+            }
+            .partner-info h4 {
+                font-size: 0.95rem;
+            }
+            .partner-info p {
+                font-size: 0.75rem;
+            }
+            .partner-btn {
+                width: 100%;
+                padding: 10px;
+            }
+            .hero-video-container {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 0;
+            }
+            .hero-content {
+                border-radius: 0;
+                padding: 20px;
+            }
+            .modal-content {
+                margin: 15% auto;
+                width: 95%;
+            }
+            .modal-video {
+                height: 300px;
+            }
             .authors-footer {
                 flex-direction: column;
                 gap: 12px;
@@ -809,16 +943,6 @@
                 padding: 8px 15px;
                 gap: 10px;
             }
-            .dev-icon {
-                font-size: 1.1rem;
-            }
-            .author-name {
-                font-size: 0.9rem;
-            }
-            .social-icon {
-                width: 20px;
-                height: 20px;
-            }
             .footer-links {
                 flex-direction: column;
                 align-items: center;
@@ -827,33 +951,6 @@
             .footer-separator {
                 display: none;
             }
-            .footer-copyright {
-                font-size: 0.7rem;
-            }
-            .hero-video-container {
-                width: 100%;
-                margin-left: 0;
-                margin-right: 0;
-                border-radius: 0;
-            }
-            .hero-content {
-                border-radius: 0;
-                padding: 20px;
-            }
-            .button-group {
-                flex-direction: column;
-            }
-            .play-btn, .trailer-btn {
-                width: 100%;
-            }
-            .modal-content {
-                margin: 15% auto;
-                width: 95%;
-            }
-            .modal-video {
-                height: 300px;
-            }
-            /* Смещение фона на телефонах */
             .game-section::before {
                 background-position: center 60px;
             }
@@ -973,7 +1070,8 @@
                     "images/witcher3/7777.jpg"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/HP2nCpJqTpo",
-                officialUrl: "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/"
+                officialUrl: "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/",
+                playrockUrl: "рок"
             },
             {
                 id: "cyberpunk2077",
@@ -986,7 +1084,8 @@
                     "images/cyberpunk2077/Cyberpunk-2077-Screenshot-072.jpg"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/ha4Lo77Bb74",
-                officialUrl: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/"
+                officialUrl: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
+                playrockUrl: "рок"
             },
             {
                 id: "csgo",
@@ -999,7 +1098,8 @@
                     "images/csgo/i.webp"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/69ng1SrPJjI",
-                officialUrl: "https://store.steampowered.com/app/730/CounterStrike_2/"
+                officialUrl: "https://store.steampowered.com/app/730/CounterStrike_2/",
+                playrockUrl: "рок"
             },
             {
                 id: "dota2",
@@ -1012,7 +1112,8 @@
                     "images/dota2/i3.webp"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/xDgZcNkzYFs",
-                officialUrl: "https://store.steampowered.com/app/570/Dota_2/"
+                officialUrl: "https://store.steampowered.com/app/570/Dota_2/",
+                playrockUrl: "рок"
             },
             {
                 id: "gta5",
@@ -1025,7 +1126,8 @@
                     "images/gta5/i.webp"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/9_0ezkc2EYk",
-                officialUrl: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/"
+                officialUrl: "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/",
+                playrockUrl: "рок"
             },
             {
                 id: "eldenring",
@@ -1038,7 +1140,8 @@
                     "images/eldenring/i 1.webp"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/LAGZd3dynaQ",
-                officialUrl: "https://store.steampowered.com/app/1245620/Elden_Ring/"
+                officialUrl: "https://store.steampowered.com/app/1245620/Elden_Ring/",
+                playrockUrl: "рок"
             },
             {
                 id: "fifa26",
@@ -1051,7 +1154,8 @@
                     "https://drop-assets.ea.com/images/2OiswZIkuSnHFY7fLFQezL/95ef5c5101cd4ecbbe672def1f6d9fe6/FC26_Rev_LuisHenrique_Careers_16x9.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(1280)&q=85"
                 ],
                 trailerUrl: "https://www.youtube.com/embed/3_15DKSw67k",
-                officialUrl: "https://www.ea.com/games/ea-sports-fc/fc-26"
+                officialUrl: "https://www.ea.com/games/ea-sports-fc/fc-26",
+                playrockUrl: "рок"
             },
             {
                 id: "forzah6",
@@ -1064,7 +1168,8 @@
                     "https://store-images.s-microsoft.com/image/apps.15199.14202278764680089.8e4c786a-0a1c-4737-a244-0bdfa34aab7b.36f3225c-6723-41d0-9828-98ad4d758c91"
                 ],
                 trailerUrl: "затычка",
-                officialUrl: "https://www.xbox.com/ru-RU/games/store/forza-horizon-6/9PFDT5X4RH8B"
+                officialUrl: "https://www.xbox.com/ru-RU/games/store/forza-horizon-6/9PFDT5X4RH8B",
+                playrockUrl: "рок"
             }
         ];
 
@@ -1134,6 +1239,7 @@
                 contentHtml = heroContentHtml;
             }
 
+            // Кнопки
             let buttonsHtml = `
                 <div class="button-group">
                     <a href="${game.officialUrl}" class="play-btn" id="playBtn">Играть</a>
@@ -1145,8 +1251,45 @@
             }
             buttonsHtml += `</div>`;
 
-            dynamicContainer.innerHTML = contentHtml + buttonsHtml;
+            // Блок партнёра Playrock (Вариант Б)
+            let partnerHtml = '';
+            if (game.playrockUrl && game.playrockUrl !== "затычка") {
+                partnerHtml = `
+                    <div class="partner-block">
+                        <div class="partner-logo">
+                            <img src="images/rockicon.jpg" alt="Playrock">
+                            <span>PLAYROCK</span>
+                        </div>
+                        <div class="partner-info">
+                            <h4>Проверенный партнёр</h4>
+                            <p>Playrock — надёжный источник ключей и гифтов</p>
+                            <a href="${game.playrockUrl}" class="partner-btn" target="_blank" rel="noopener noreferrer">🎁 Купить ключ / Gift</a>
+                            <div class="partner-trust">Партнёр Playrock — надёжный источник ключей</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Заглушка: показываем блок с пояснением, что ссылка не настроена
+                partnerHtml = `
+                    <div class="partner-block" style="opacity: 0.7;">
+                        <div class="partner-logo">
+                            <img src="images/rockicon.jpg" alt="Playrock">
+                            <span>PLAYROCK</span>
+                        </div>
+                        <div class="partner-info">
+                            <h4>Проверенный партнёр</h4>
+                            <p>Playrock — надёжный источник ключей и гифтов</p>
+                            <span class="partner-btn" style="cursor: default; filter: grayscale(0.3);">Скоро появится</span>
+                            <div class="partner-trust">Партнёр Playrock — надёжный источник ключей</div>
+                        </div>
+                    </div>
+                `;
+            }
 
+            // Собираем всё вместе: сначала контент (галерея+описание), потом кнопки, потом блок партнёра
+            dynamicContainer.innerHTML = contentHtml + buttonsHtml + partnerHtml;
+
+            // Инициализация галереи
             if (galleryItems.length > 0) {
                 let currentIndex = 0;
                 const galleryItemDiv = document.getElementById('galleryItem');
@@ -1192,6 +1335,7 @@
                 renderCurrentItem();
             }
 
+            // Модальное окно для трейлера
             const modal = document.getElementById('videoModal');
             const modalVideo = document.getElementById('modalVideo');
             const closeModal = document.querySelector('.close-modal');
@@ -1219,6 +1363,7 @@
                 }
             });
 
+            // Отзывы
             const reviewList = document.getElementById('reviewList');
             const reviewName = document.getElementById('reviewName');
             const reviewText = document.getElementById('reviewText');
@@ -1274,6 +1419,7 @@
             }
             loadReviews();
 
+            // Эффект частиц для кнопки "Играть"
             const playBtn = document.getElementById('playBtn');
             if (playBtn) {
                 function createParticle(x, y) {
@@ -1305,6 +1451,7 @@
     </script>
 
     <script>
+        // Всплывающее сообщение при клике на разработчика
         document.querySelectorAll('.developer-block').forEach(block => {
             block.addEventListener('click', (e) => {
                 if (e.target.closest('.social-link')) return;
